@@ -2,4 +2,6 @@
 const events = require('./events');
 const apiKeys = require('./apiKeys');
 
-apiKeys.retrieveKeys();
+$(document).ready(function(){
+    apiKeys.retrieveKeys();
+});
