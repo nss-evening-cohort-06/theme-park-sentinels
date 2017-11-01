@@ -1,27 +1,20 @@
 'use strict';
 
 const firebaseApi = require('./firebaseApi');
-let attractionsStringArray = [];
+// let attractionsStringArray = [];
 
 const buildAttractionsString = ( parkAreas, smashedData ) => {
-    // console.log('parkAreas in dom:', parkAreas);
-    // console.log('smashedData in dom:', smashedData);
-    let attractionString = '';
-    smashedData.forEach(( attraction ) => {
-        attractionString = `<div class='col-md-4'>${attraction.name}</div>`;
-        attractionsStringArray.push(attractionString);
-    });
-    // console.log('attractionsStringArray in dom:', attractionsStringArray);
-    buildMainAreaGrid( parkAreas, attractionsStringArray );
-};
-
-const buildMainAreaGrid = ( parkAreas, attractionsStringArray ) => {
+    let str = '';
     parkAreas.forEach(( area ) => {
         console.log('area:', area);
-        // attractionsStringArray.forEach(( attr ) => {            
-        // });
+        str += `<div id='${area.name}' class='col-md-3'><h3>${area.name}</h3></div>`;
+        smashedData.forEach(( attraction ) => {
+            console.log('attraction:', attraction);
+            if ( attraction.area_id === area.id ) {
+                str += `<div class='col-md-3 hidden'><p>${attraction.name}</p></div>`;
+            }
+        });
     });
-    // printToDom( str, '' );
 };
 
 const leftDomString = ( arg1, arg2 ) => {
