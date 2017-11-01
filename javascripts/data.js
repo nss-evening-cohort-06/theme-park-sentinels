@@ -8,9 +8,7 @@ let parkAttractionTypes = [];
 let parkInfo = [];
 let smashedData = [];
 
-const smashThisShitTogether = () => { 
-    // console.log('parkAreas', parkAreas);    
-    // console.log('parkAttractions', parkAttractions);    
+const smashThisShitTogether = () => {     
     parkAreas.forEach(( area ) => {
         parkAttractions.forEach(( attraction ) => {
             if ( attraction.area_id === area.id ) {
@@ -19,8 +17,14 @@ const smashThisShitTogether = () => {
         });
     });
     smashedData = parkAttractions;
-    // console.log('smashedData:', smashedData);
     dom.mainDomString( parkAreas, smashedData );
+};
+
+const filterSearchTxt = ( txt ) => {
+    let results = parkAttractions.filter(( thing ) => {
+        return thing.name.indexOf(txt) > -1;        
+    });
+    console.log('results:', results);
 };
 
 const setParkAreas = (areas) => {
@@ -40,4 +44,4 @@ const setParkInfo = (info) => {
     smashThisShitTogether();
 };
 
-module.exports = {setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether};
+module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether};

@@ -1,7 +1,7 @@
 'use strict';
 
 const firebaseApi = require('./firebaseApi');
-// let attractionsStringArray = [];
+
 
 const mainDomString = ( parkAreas, smashedData ) => {
     let str = '';
@@ -27,7 +27,7 @@ const mainDomString = ( parkAreas, smashedData ) => {
 };
 
 const leftDomString = ( arg1, arg2 ) => {
-
+//placeholder 
 };
 
 const printToDom = ( str, divName ) => {
