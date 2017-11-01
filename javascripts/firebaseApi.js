@@ -11,19 +11,19 @@ const setKey = (key) => {
     firebaseKey = key;
 };
 
-let authenticateGoogle = () => {
-    return new Promise((resolve, reject) => {
-      var provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then((authData) => {
-            userUid = authData.user.uid;
-            resolve(authData.user);
-            dataGetter();
-        }).catch((error) => {
-            reject(error);
-        });
-    });
-  };
+// let authenticateGoogle = () => {
+//     return new Promise((resolve, reject) => {
+//       var provider = new firebase.auth.GoogleAuthProvider();
+//       firebase.auth().signInWithPopup(provider)
+//         .then((authData) => {
+//             userUid = authData.user.uid;
+//             resolve(authData.user);
+//             dataGetter();
+//         }).catch((error) => {
+//             reject(error);
+//         });
+//     });
+//   };
 
 const getParkAreas = () => {
     return new Promise((resolve, reject) => {
@@ -42,6 +42,7 @@ const getParkAreas = () => {
 };
 
 const getParkAttractions = () => {
+    parkAttractions = [];
     return new Promise((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
             if (attractions != null) {
@@ -109,4 +110,4 @@ const dataGetter = () => {
 };
 
 
-  module.exports = {setKey, authenticateGoogle};
+  module.exports = {setKey, dataGetter};
