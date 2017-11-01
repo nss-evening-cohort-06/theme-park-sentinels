@@ -5,16 +5,22 @@ const firebaseApi = require('./firebaseApi');
 
 const buildAttractionsString = ( parkAreas, smashedData ) => {
     let str = '';
-    parkAreas.forEach(( area ) => {
-        console.log('area:', area);
-        str += `<div id='${area.name}' class='col-md-3'><h3>${area.name}</h3></div>`;
+    parkAreas.forEach(( area, i ) => {
+        if (i % 3 === 0) {
+            str += `<div class="row">`;
+        }
+        str += `<div id='area-${area.id}' class='col-md-4 thumbnail fixed-dimensions'><h3>${area.name}</h3>`;
         smashedData.forEach(( attraction ) => {
-            console.log('attraction:', attraction);
-            if ( attraction.area_id === area.id ) {
+            if ( area.id === attraction.area_id ) {
                 str += `<div class='col-md-3 hidden'><p>${attraction.name}</p></div>`;
             }
         });
+        str += `</div>`;
+        // if (i % 3 === 2 || i === smashedData.length - 1) {
+        //     str += `</div>`;
+        // }
     });
+    printToDom(str, 'main-grid');
 };
 
 const leftDomString = ( arg1, arg2 ) => {
@@ -22,7 +28,7 @@ const leftDomString = ( arg1, arg2 ) => {
 };
 
 const printToDom = ( str, divName ) => {
-
+    $(`#${divName}`).html(str);
 };
 
 module.exports = { buildAttractionsString, leftDomString }; 
