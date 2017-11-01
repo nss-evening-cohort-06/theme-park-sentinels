@@ -1,13 +1,8 @@
 'use strict';
 
-const data = require('./data');
-
 let firebaseKey = '';
 let userUid = '';
-let parkAreas = [];
-let parkAttractions = [];
-let parkAttractionTypes = [];
-let parkInfo = [];
+const data = require('./data');
 
 const setKey = (key) => {
     firebaseKey = key;
@@ -28,104 +23,93 @@ const setKey = (key) => {
 //   };
 
 const getParkAreas = () => {
+    let parkData = [];
     return new Promise((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/areas.json`).then((areas) => {
             if (areas != null) {
                 Object.keys(areas).forEach((key) => {
-                    areas[key].fbkey = key;
-                    parkAreas.push(areas[key]);
+                    areas[key].fbId = key;
+                    parkData.push(areas[key]);
                 });
             }
-            resolve(parkAreas);
-        }).fail((error) => {
+            resolve(parkData);
+        }).catch((error) => {
             reject(error);
         });
     });
 };
 
 const getParkAttractions = () => {
-    parkAttractions = [];
+    let attractionData = [];
     return new Promise((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
             if (attractions != null) {
                 Object.keys(attractions).forEach((key) => {
-                    attractions[key].fbkey = key;
-                    parkAttractions.push(attractions[key]);
+                    attractions[key].fbId = key;
+                    attractionData.push(attractions[key]);
                 });
             }
-            resolve(parkAttractions);
-        }).fail((error) => {
+            resolve(attractionData);
+        }).catch((error) => {
             reject(error);
         });
     });
 };
 
 const getParkAttractionTypes = () => {
+    let typeData = [];
     return new Promise((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attraction_types.json`).then((types) => {
             if (types != null) {
                 Object.keys(types).forEach((key) => {
-                    types[key].fbkey = key;
-                    parkAttractionTypes.push(types[key]);
+                    types[key].fbId = key;
+                    typeData.push(types[key]);
                 });
             }
-            resolve(parkAreas);
-        }).fail((error) => {
+            resolve(typeData);
+        }).catch((error) => {
             reject(error);
         });
     });
 };
 
 const getParkInfo = () => {
+    let parkData = [];
     return new Promise((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/park-info.json`).then((info) => {
             if (info != null) {
                 Object.keys(info).forEach((key) => {
-                    info[key].fbkey = key;
-                    parkInfo.push(info[key]);
+                    info[key].fbId = key;
+                    parkData.push(info[key]);
                 });
             }
-            resolve(parkAreas);
-        }).fail((error) => {
+            resolve(parkData);
+        }).catch((error) => {
             reject(error);
         });
     });
 };
 
-
-
 const dataGetter = () => {
-    getParkAreas().then((results) => {
-       return getParkAttractions();
+    getParkAttractions().then((results) => {
+        data.setParkAttractions(results);
+       return getParkAreas();
     }).then(() => {
-        getParkAttractions().then((results) => {
+        getParkAreas().then((results) => {
+            data.setParkAreas(results);
             return getParkAttractionTypes();
         });
     }).then(() => {
+        getParkAttractionTypes().then((results) => {
+            data.setParkAttractionTypes(results);
+            return getParkInfo();
+        });
+    }).then(() => {
         getParkInfo().then((results) => {
-            // console.log("parkAreas", parkAreas);
-            // console.log("parkAttractions", parkAttractions);
-            // console.log("parkAttractionTypes", parkAttractionTypes);
-            // console.log("parkInfo", parkInfo); 
-            data.smashThisShitTogether( parkAreas, parkAttractions );                                    
-        });                
-    });               
+            data.setParkInfo(results);            
+        });
+        
+    });  
 };
 
-const getParkAreasData = () => {
-    return parkAreas;
-};
-
-const getParkAttractionsData = () => {
-    return parkAttractions;
-};
-
-const getParkAttractionTypesData = () => {
-    return parkAttractionTypes;
-};
-
-const getParkInfoData = () => {
-    return parkInfo;
-};
-
-  module.exports = {setKey, dataGetter, getParkAreasData, getParkAttractionsData, getParkAttractionTypesData, getParkInfoData};
+module.exports = {setKey, dataGetter};
