@@ -2,10 +2,7 @@
 
 let firebaseKey = '';
 let userUid = '';
-let parkAreas = [];
-let parkAttractions = [];
-let parkAttractionTypes = [];
-let parkInfo = [];
+const data = require('./data');
 
 const setKey = (key) => {
     firebaseKey = key;
@@ -95,33 +92,21 @@ const getParkInfo = () => {
 
 const dataGetter = () => {
     getParkAttractions().then((results) => {
-        results.forEach((result) => {
-            parkAttractions.push(result);
-        });
+        data.setParkAttractions(results);
        return getParkAreas();
     }).then(() => {
         getParkAreas().then((results) => {
-            results.forEach((result) => {
-                parkAreas.push(result);
-            });
+            data.setParkAreas(results);
             return getParkAttractionTypes();
         });
     }).then(() => {
         getParkAttractionTypes().then((results) => {
-            results.forEach((result) => {
-                parkAttractionTypes.push(result);
-            });
+            data.setParkAttractionTypes(results);
             return getParkInfo();
         });
     }).then(() => {
         getParkInfo().then((results) => {
-            results.forEach((result) => {
-                parkInfo.push(result);
-            });
-            console.log("parkAreas", parkAreas);
-            console.log("parkAttractions", parkAttractions);
-            console.log("parkAttractionTypes", parkAttractionTypes);
-            console.log("parkInfo", parkInfo); 
+            data.setParkInfo(results);
         });
         
     });  
