@@ -28,7 +28,7 @@ const getParkAreas = () => {
         $.ajax(`${firebaseKey.databaseURL}/areas.json`).then((areas) => {
             if (areas != null) {
                 Object.keys(areas).forEach((key) => {
-                    areas[key].id = key;
+                    areas[key].fbId = key;
                     parkData.push(areas[key]);
                 });
             }
@@ -45,7 +45,7 @@ const getParkAttractions = () => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
             if (attractions != null) {
                 Object.keys(attractions).forEach((key) => {
-                    attractions[key].id = key;
+                    attractions[key].fbId = key;
                     attractionData.push(attractions[key]);
                 });
             }
@@ -62,7 +62,7 @@ const getParkAttractionTypes = () => {
         $.ajax(`${firebaseKey.databaseURL}/attraction_types.json`).then((types) => {
             if (types != null) {
                 Object.keys(types).forEach((key) => {
-                    types[key].id = key;
+                    types[key].fbId = key;
                     typeData.push(types[key]);
                 });
             }
@@ -79,7 +79,7 @@ const getParkInfo = () => {
         $.ajax(`${firebaseKey.databaseURL}/park-info.json`).then((info) => {
             if (info != null) {
                 Object.keys(info).forEach((key) => {
-                    info[key].id = key;
+                    info[key].fbId = key;
                     parkData.push(info[key]);
                 });
             }
@@ -106,13 +106,10 @@ const dataGetter = () => {
         });
     }).then(() => {
         getParkInfo().then((results) => {
-            data.setParkInfo(results);
+            data.setParkInfo(results);            
         });
         
     });  
 };
 
-
-
-
-  module.exports = {setKey, dataGetter};
+module.exports = {setKey, dataGetter};
