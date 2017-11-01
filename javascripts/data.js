@@ -13,7 +13,7 @@ const smashThisShitTogether = ( parkAreas, parkAttractions ) => {
         });
     });
     smashedData = parkAttractions;
-    dom.buildAttractionsString( parkAreas, smashedData );
+    dom.mainDomString( parkAreas, smashedData );
 };
 
 module.exports = { smashThisShitTogether }; 
