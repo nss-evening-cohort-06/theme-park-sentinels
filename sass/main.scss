@@ -2,10 +2,30 @@
 @import 'colors';
 @import 'elements';
 
-#area-1{}
-#area-2{}
-#area-3{}
-#area-4{}
-#area-5{}
-#area-6{}
-#area-7{}
+#area-1{
+	background-color: $red;
+}
+
+#area-2{
+	background-color: $green;
+}
+
+#area-3{
+	background-color: $beige;
+}
+
+#area-4{
+	background-color: $royalblue;
+}
+
+#area-5{
+	background-color: $pink;
+}
+
+#area-6{
+	background-color: $skyblue;
+}
+
+#area-7{
+	background-color: $yellow;
+}
