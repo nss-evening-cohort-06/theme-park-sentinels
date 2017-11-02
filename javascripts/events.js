@@ -1,5 +1,9 @@
 'use strict';
 const firebaseApi = require('./firebaseApi');
+const data = require('./data');
+
+let searchBar = $('#inputHolder');
+let submitBtn = $('#submitBtn');
 
 // const googleAuth = () => {
 //     $('#googleauth').click((e) => {
@@ -11,8 +15,30 @@ const firebaseApi = require('./firebaseApi');
 //     });
 // };
 
+// SEARCH INPUT EVENTS
+const searchBarBtnClick = () => {
+    submitBtn.click(( e ) => {
+        e.preventDefault();
+        let txt = $( searchBar ).val();
+        data.filterSearchTxt( txt );
+    });
+};
+
+const searchBarKeypress = () => {    
+    searchBar.keypress(( e ) => {        
+        if ( e.key === 'Enter' ) {
+            e.preventDefault();
+            let txt = $( searchBar ).val();
+            data.filterSearchTxt( txt );
+        }
+    });
+};
+
+// INITIALIZE EVENTS IN MAIN.JS
 const init = () => {
     // googleAuth();
+    searchBarBtnClick();
+    searchBarKeypress();
 };
 
 module.exports = {init};

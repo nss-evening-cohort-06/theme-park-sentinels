@@ -6,4 +6,5 @@ const copyright = require('./copyright');
 
 $(document).ready(function(){
     apiKeys.retrieveKeys();
+    events.init();
 });
