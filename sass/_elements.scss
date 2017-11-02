@@ -1,3 +1,5 @@
+@import 'colors';
+
 .dropdown-menu {
 	height: 164px;
     overflow: scroll;
@@ -22,6 +24,6 @@ footer ul li {
   bottom: 0;
   left: 0;
   padding: 1rem;
-  background-color: #efefef;
+  background-color: $footer-background-color;
   text-align: center;
 }
