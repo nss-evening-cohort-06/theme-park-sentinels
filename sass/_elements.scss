@@ -1,3 +1,5 @@
+@import 'colors';
+
 .dropdown-menu {
 	height: 164px;
     overflow: scroll;
@@ -9,4 +11,19 @@
 
 #inputHolder {
 	    width: 327px;
+}
+
+
+footer ul li {
+	list-style: none;
+}
+
+#footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: $footer-background-color;
+  text-align: center;
 }
