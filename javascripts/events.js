@@ -40,7 +40,3 @@ const init = () => {
 };
 
 module.exports = {init};
-// When user user presses enter
-// Then the areas that contain an attraction, whose name contains the search string, should be outlined with a border
-// Use regular expressions to match the user's search string with the name of each attraction to find a match. 
-// The search string simply must be contained in the attraction name, not just start with.
