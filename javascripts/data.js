@@ -21,11 +21,24 @@ const smashThisShitTogether = () => {
 };
 
 const filterSearchTxt = ( txt ) => {
-    let results = parkAttractions.filter(( thing ) => {
-        return thing.name.indexOf(txt) > -1;        
+    let filteredResults = parkAttractions.filter(( attraction ) => {
+        return attraction.name.indexOf(txt) > -1;        
     });
-    console.log('results:', results);
+    // console.log('results:', results);
+    highlightFilteredAttractions( filteredResults );        
 };
+
+const highlightFilteredAttractions = ( filteredResults ) => {
+    filteredResults.forEach(( attraction ) => {
+        console.log('attraction:', attraction);
+        $(`#area-${attraction.area_id}`).addClass('border-highlight');
+    });
+};
+
+// When user user presses enter
+// Then the areas that contain an attraction, whose name contains the search string, should be outlined with a border
+// Use regular expressions to match the user's search string with the name of each attraction to find a match. 
+// The search string simply must be contained in the attraction name, not just start with.
 
 const setParkAreas = (areas) => {
     parkAreas = areas;

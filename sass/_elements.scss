@@ -1,5 +1,7 @@
 @import 'colors';
+@import 'variables';
 
+// MAIN NAVBAR
 .dropdown-menu {
 	height: 164px;
     overflow: scroll;
@@ -8,12 +10,12 @@
 .navbar-form {
 	margin-left: 19%;
 }
-
+//SEARCH INPUT
 #inputHolder {
 	    width: 327px;
 }
-
-
+// END NAVBAR
+// FOOTER
 footer ul li {
 	list-style: none;
 }
@@ -26,4 +28,9 @@ footer ul li {
   padding: 1rem;
   background-color: $footer-background-color;
   text-align: center;
+}
+// END FOOTER
+// HIGHLIGHT AREAS BASED ON EVENTS
+.border-highlight {
+  border: $border-highlight;
 }
