@@ -8,6 +8,7 @@ let parkAttractionTypes = [];
 let parkInfo = [];
 let smashedData = [];
 
+// COMBINE AREAS INTO ATTRACTIONS DATA
 const smashThisShitTogether = () => {     
     parkAreas.forEach(( area ) => {
         parkAttractions.forEach(( attraction ) => {
@@ -20,25 +21,24 @@ const smashThisShitTogether = () => {
     dom.mainDomString( parkAreas, smashedData );
 };
 
+// FILTER USER SEARCH QUERY AND FIRE HIGHLIGHT FUNC
 const filterSearchTxt = ( txt ) => {
+    txt = txt.toUpperCase();
     let filteredResults = parkAttractions.filter(( attraction ) => {
-        return attraction.name.indexOf(txt) > -1;        
+        return attraction.name.toUpperCase().indexOf( txt ) > -1;        
     });
-    // console.log('results:', results);
     highlightFilteredAttractions( filteredResults );        
 };
 
+// HIGHLIGHT AREAS WITH BORDER BASED ON SEARCH QUERY
 const highlightFilteredAttractions = ( filteredResults ) => {
+    parkAreas.forEach(( area ) => {
+        $(`#area-${area.id}`).removeClass('border-highlight');
+    });
     filteredResults.forEach(( attraction ) => {
-        console.log('attraction:', attraction);
         $(`#area-${attraction.area_id}`).addClass('border-highlight');
     });
 };
-
-// When user user presses enter
-// Then the areas that contain an attraction, whose name contains the search string, should be outlined with a border
-// Use regular expressions to match the user's search string with the name of each attraction to find a match. 
-// The search string simply must be contained in the attraction name, not just start with.
 
 const setParkAreas = (areas) => {
     parkAreas = areas;

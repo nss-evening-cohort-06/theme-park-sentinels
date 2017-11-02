@@ -1,16 +1,16 @@
 @import 'colors';
 @import 'variables';
 
-// MAIN NAVBAR
+/* MAIN NAV */
 .dropdown-menu {
 	height: 164px;
     overflow: scroll;
 }
-
 .navbar-form {
 	margin-left: 19%;
 }
-//SEARCH INPUT
+
+/* SEARCH INPUT */
 #inputHolder {
 	    width: 327px;
 }
@@ -49,10 +49,10 @@
     opacity: .8;
 }
 
+/* FOOTER */
 footer ul li {
 	list-style: none;
 }
-
 #footer {
   position: absolute;
   right: 0;
@@ -62,8 +62,8 @@ footer ul li {
   background-color: $footer-background-color;
   text-align: center;
 }
-// END FOOTER
-// HIGHLIGHT AREAS BASED ON EVENTS
+
+/* HIGHLIGHT BORDER */
 .border-highlight {
   border: $border-highlight;
 }

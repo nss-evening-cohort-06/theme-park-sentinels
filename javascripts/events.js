@@ -15,6 +15,7 @@ let submitBtn = $('#submitBtn');
 //     });
 // };
 
+// SEARCH INPUT EVENTS
 const searchBarBtnClick = () => {
     submitBtn.click(( e ) => {
         e.preventDefault();
@@ -33,6 +34,7 @@ const searchBarKeypress = () => {
     });
 };
 
+// INITIALIZE EVENTS IN MAIN.JS
 const init = () => {
     // googleAuth();
     searchBarBtnClick();
