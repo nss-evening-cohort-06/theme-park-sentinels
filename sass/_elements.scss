@@ -14,8 +14,41 @@
 #inputHolder {
 	    width: 327px;
 }
-// END NAVBAR
-// FOOTER
+
+
+
+/* SIDEBAR */
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+/* GRID */
+
+.hi {
+	border: 1px solid black;
+	width: 187px;
+    height: 140px;
+    color: white;
+    opacity: .8;
+}
+
 footer ul li {
 	list-style: none;
 }
