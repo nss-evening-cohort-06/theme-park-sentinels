@@ -1,12 +1,69 @@
+@import 'colors';
+@import 'variables';
+
+/* MAIN NAV */
 .dropdown-menu {
 	height: 164px;
     overflow: scroll;
 }
-
 .navbar-form {
 	margin-left: 19%;
 }
 
+/* SEARCH INPUT */
 #inputHolder {
 	    width: 327px;
+}
+
+
+
+/* SIDEBAR */
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+/* GRID */
+
+.hi {
+	border: 1px solid black;
+	width: 187px;
+    height: 140px;
+    color: white;
+    opacity: .8;
+}
+
+/* FOOTER */
+footer ul li {
+	list-style: none;
+}
+#footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: $footer-background-color;
+  text-align: center;
+}
+
+/* HIGHLIGHT BORDER */
+.border-highlight {
+  border: $border-highlight;
 }

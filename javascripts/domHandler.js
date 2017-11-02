@@ -1,7 +1,7 @@
 'use strict';
 
 const firebaseApi = require('./firebaseApi');
-// let attractionsStringArray = [];
+
 
 const mainDomString = ( parkAreas, smashedData ) => {
     let str = '';
@@ -9,13 +9,13 @@ const mainDomString = ( parkAreas, smashedData ) => {
         if (i % 3 === 0) {
             str += `<div class="row top-buffer">`;
         } if ( i === 6 ) {
-            str += `<div class='empty hi col-xs-4 col-xs-offset-1'></div>`;
-            str += `<div class='empty hi col-xs-4 col-xs-offset-1'><h3>Entrance</h3></div>`;
+            str += `<div class='empty hi col-xs-4'></div>`;
+            str += `<div class='empty hi col-xs-4'><h3>Entrance</h3></div>`;
         }
-        str += `<div id='area-${area.id}' class='hi col-xs-4 col-xs-offset-1'><h3>${area.name}</h3>`;
+        str += `<div id='area-${area.id}' class='hi col-xs-4'><h3>${area.name}</h3>`;
         smashedData.forEach(( attraction ) => {
             if ( area.id === attraction.area_id ) {
-                str += `<div id='attraction-${attraction.id}' class='hi col-xs-4 col-xs-offset-1 hidden'><p>${attraction.name}</p></div>`;
+                str += `<div id='attraction-${attraction.id}' class='hi col-xs-4 hidden'><p>${attraction.name}</p></div>`;
             }
         });
         str += `</div>`;
@@ -27,7 +27,7 @@ const mainDomString = ( parkAreas, smashedData ) => {
 };
 
 const leftDomString = ( arg1, arg2 ) => {
-
+//placeholder 
 };
 
 const printToDom = ( str, divName ) => {

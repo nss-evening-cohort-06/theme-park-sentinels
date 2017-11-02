@@ -8,9 +8,8 @@ let parkAttractionTypes = [];
 let parkInfo = [];
 let smashedData = [];
 
-const smashThisShitTogether = () => { 
-    // console.log('parkAreas', parkAreas);    
-    // console.log('parkAttractions', parkAttractions);    
+// COMBINE AREAS INTO ATTRACTIONS DATA
+const smashThisShitTogether = () => {     
     parkAreas.forEach(( area ) => {
         parkAttractions.forEach(( attraction ) => {
             if ( attraction.area_id === area.id ) {
@@ -19,8 +18,26 @@ const smashThisShitTogether = () => {
         });
     });
     smashedData = parkAttractions;
-    // console.log('smashedData:', smashedData);
     dom.mainDomString( parkAreas, smashedData );
+};
+
+// FILTER USER SEARCH QUERY AND FIRE HIGHLIGHT FUNC
+const filterSearchTxt = ( txt ) => {
+    txt = txt.toUpperCase();
+    let filteredResults = parkAttractions.filter(( attraction ) => {
+        return attraction.name.toUpperCase().indexOf( txt ) > -1;        
+    });
+    highlightFilteredAttractions( filteredResults );        
+};
+
+// HIGHLIGHT AREAS WITH BORDER BASED ON SEARCH QUERY
+const highlightFilteredAttractions = ( filteredResults ) => {
+    parkAreas.forEach(( area ) => {
+        $(`#area-${area.id}`).removeClass('border-highlight');
+    });
+    filteredResults.forEach(( attraction ) => {
+        $(`#area-${attraction.area_id}`).addClass('border-highlight');
+    });
 };
 
 const setParkAreas = (areas) => {
@@ -40,4 +57,4 @@ const setParkInfo = (info) => {
     smashThisShitTogether();
 };
 
-module.exports = {setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether};
+module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether};
