@@ -26,8 +26,30 @@ const mainDomString = ( parkAreas, smashedData ) => {
     printToDom(str, 'main-grid');
 };
 
-const leftDomString = ( arg1, arg2 ) => {
-//placeholder 
+const leftDomString = ( attractions ) => {
+    let runTimes = ``;
+    let printStrang = `<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">`;
+    attractions.forEach((attraction) => {
+        printStrang +=  `<div class="panel panel-default">`;
+        printStrang +=      `<div class="panel-heading" role="tab" id="headingOne">`;
+        printStrang +=          `<h4 class="panel-title">`;
+        printStrang +=             `<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">${attraction.name}(${attraction.typeName})</a>`;
+        printStrang +=          `</h4>`;
+        printStrang +=      `</div>`;
+        printStrang +=      `<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">`;
+        printStrang +=          `<div class="panel-body">${attraction.description}</div>`;
+        if (attraction.time != null) {
+        attraction.times.forEach((time) => {
+            runTimes += time;    
+        });  
+        printStrang +=          `<div class="panel-body">Hours of Operation: ${runTimes}</div>`;  
+        }
+        printStrang +=      `</div>`;
+        printStrang +=  `</div>`;    
+    });
+    printStrang += `</div>`;
+    printToDom(printStrang, 'attractions-div');
+    $('#attractions-div').removeClass('hide');
 };
 
 const printToDom = ( str, divName ) => {

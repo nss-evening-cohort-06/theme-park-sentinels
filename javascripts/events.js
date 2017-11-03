@@ -34,11 +34,22 @@ const searchBarKeypress = () => {
     });
 };
 
+// CLICK EVENT FOR PARK AREA DATA
+const displayAttractions = () => {
+    $('body').click((e) => {
+        if (e.target.id.includes('area')) {
+            let areaData = parseInt(e.target.id.split('-').pop());
+            data.attractionData(areaData);
+        }
+    });
+};
+
 // INITIALIZE EVENTS IN MAIN.JS
 const init = () => {
     // googleAuth();
     searchBarBtnClick();
     searchBarKeypress();
+    displayAttractions();
 };
 
 
