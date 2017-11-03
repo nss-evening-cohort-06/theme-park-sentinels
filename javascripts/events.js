@@ -44,12 +44,14 @@ const displayAttractions = () => {
     });
 };
 
+
 // INITIALIZE EVENTS IN MAIN.JS
 const init = () => {
     // googleAuth();
     searchBarBtnClick();
     searchBarKeypress();
     displayAttractions();
+
 };
 
 
