@@ -61,6 +61,11 @@ const attractionData = (area) => {
     dom.leftDomString(printArray);
 };
 
+const updateMaintenance = () => {
+    console.log('parkAttractions:', parkAttractions);
+    console.log('maintenanceInfo:', maintenanceInfo);
+};
+
 const setParkAreas = (areas) => {
     parkAreas = areas;
 };
@@ -80,6 +85,7 @@ const setParkInfo = (info) => {
 
 const setMaintenanceInfo = (times) => {
     maintenanceInfo = times;
+    updateMaintenance();
 };
 
-module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether, attractionData, setMaintenanceInfo};
+module.exports = {updateMaintenance, filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether, attractionData, setMaintenanceInfo};

@@ -39,6 +39,14 @@
   }
 }
 
+.margin-fixed {
+  margin-bottom: 200px;
+}
+
+body {
+  padding-bottom: 70px;
+}
+
 /* GRID */
 
 .hi {
@@ -54,11 +62,12 @@ footer ul li {
 	list-style: none;
 }
 #footer {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
   padding: 1rem;
+  height: 40px;
   background-color: $footer-background-color;
   text-align: center;
 }
@@ -67,5 +76,17 @@ footer ul li {
 .border-highlight {
   border: $border-highlight;
 }
+
+/* TIME ELEMENT */
+
+.this-b-cray {
+  height: 20px;
+}
+
+#time-container {
+  height: 135px;
+}
+
+
 
 

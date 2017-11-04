@@ -5,6 +5,9 @@ let moment = require('../lib/node_modules/moment/moment.js');
 moment().format();
 // const copyright = require('./copyright');
 
+const copyright = require('./copyright');
+
+
 
 $(document).ready(function(){
     apiKeys.retrieveKeys();
