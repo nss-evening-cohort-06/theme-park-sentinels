@@ -6,6 +6,7 @@ let parkAreas = [];
 let parkAttractions = [];
 let parkAttractionTypes = [];
 let parkInfo = [];
+let maintenanceInfo = [];
 let smashedData = [];
 
 // COMBINE AREAS INTO ATTRACTIONS DATA
@@ -40,6 +41,26 @@ const highlightFilteredAttractions = ( filteredResults ) => {
     });
 };
 
+// GET DATA FOR ATTRACTIONS AND ATTRACTION TYPES
+const attractionData = (area) => {
+    let printArray = [];
+
+    parkAttractionTypes.forEach((type) => {
+        smashedData.forEach((attraction) => {
+            if (attraction.type_id === type.id) {
+                attraction.typeName = type.name;
+            }
+        });
+    });
+    
+    smashedData.forEach((thing) => {
+        if (thing.area_id === area) {
+            printArray.push(thing);
+        }
+    });
+    dom.leftDomString(printArray);
+};
+
 const setParkAreas = (areas) => {
     parkAreas = areas;
 };
@@ -57,4 +78,8 @@ const setParkInfo = (info) => {
     smashThisShitTogether();
 };
 
-module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether};
+const setMaintenanceInfo = (times) => {
+    maintenanceInfo = times;
+};
+
+module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether, attractionData, setMaintenanceInfo};
