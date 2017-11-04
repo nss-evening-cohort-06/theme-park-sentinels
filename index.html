@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Theme Park Sentinels</title>
     <link rel="stylesheet" href="./lib/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./vendor/bootstrap-material-datetimepicker.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./styles/main.css">
 </head>
 <body>
@@ -58,6 +60,8 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+
+
 <!-- SIDE NAVBAR --> 
 <div class="datSide">
   <div class="col-sm-3">
@@ -100,6 +104,25 @@
   </div>
 
 
+
+<div class="container well">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Time Picker</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-control-wrapper">
+                        <input type="text" id="time" class="form-control floating-label" placeholder="Time">
+                    </div>
+                </div>
+                </div>
+                </div>
+
+
+
+
 <div class='container col-md-9'>
   <div id='main-grid'></div>
 </div>
@@ -116,6 +139,8 @@
     <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>            
     <script type="text/javascript" src="./lib/node_modules/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="./lib/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="./lib/node_modules/moment/moment.js"></script>
+    <script type="text/javascript" src="./vendor/bootstrap-material-datetimepicker.js"></script>
     <script type="text/javascript" src="./dist/app.js"></script>
 </body>
 </html>
