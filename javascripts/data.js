@@ -51,6 +51,7 @@ const attractionData = (area) => {
             }
         });
     });
+    
     smashedData.forEach((thing) => {
         if (thing.area_id === area) {
             printArray.push(thing);

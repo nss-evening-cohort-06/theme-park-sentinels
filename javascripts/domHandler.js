@@ -26,55 +26,40 @@ const mainDomString = ( parkAreas, smashedData ) => {
     printToDom(str, 'main-grid');
 };
 
-// const leftDomString = ( attractions ) => {
-//     let runTimes = ``;
-//     let printStrang = `<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">`;
-//     attractions.forEach((attraction) => {
-//         printStrang +=  `<div class="panel panel-default">`;
-//         printStrang +=      `<div class="panel-heading" role="tab" id="headingOne">`;
-//         printStrang +=          `<h4 class="panel-title">`;
-//         printStrang +=             `<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">${attraction.name}(${attraction.typeName})</a>`;
-//         printStrang +=          `</h4>`;
-//         printStrang +=      `</div>`;
-//         printStrang +=      `<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">`;
-//         printStrang +=          `<div class="panel-body">${attraction.description}</div>`;
-//         if (attraction.time != null) {
-//         attraction.times.forEach((time) => {
-//             runTimes += time;    
-//         });  
-//         printStrang +=          `<div class="panel-body">Hours of Operation: ${runTimes}</div>`;  
-//         }
-//         printStrang +=      `</div>`;
-//         printStrang +=  `</div>`;    
-//     });
-//     printStrang += `</div>`;
-//     printToDom(printStrang, 'attractions-div');
-//     $('#attractions-div').removeClass('hide');
-// };
-
-const leftDomString = (attractions) => {
+const leftDomString = ( attractions) => {
+    let i = 0;
     let runTimes = ``;
-    let printStrang = ``;
-
+    let printStrang = `<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">`;
     attractions.forEach((attraction) => {
-        printStrang += `<input id="toggle" type="checkbox">`;
-        printStrang +=  `<label for="toggle">${attraction.name}(${attraction.typeName})</label>`;
-        printStrang +=      `<div id="expand">`;
-        printStrang +=          `<section>`;
-        printStrang +=              `<p>${attraction.description}</p>`;
-        if (attraction.time != null) {
-            attraction.times.forEach((time) => {
-                runTimes += time;    
-            });  
-            printStrang +=          `<p class="panel-body">Hours of Operation: ${runTimes}</p>`;  
-            }
-        printStrang +=          `</section>`;  
+        printStrang +=  `<div class="panel panel-default">`;
+        printStrang +=      `<div class="panel-heading" role="tab" id="heading${i}">`;
+        printStrang +=          `<h4 class="panel-title">`;
+        printStrang +=             `<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">${attraction.name} (${attraction.typeName})</a>`;
+        printStrang +=          `</h4>`;
         printStrang +=      `</div>`;
+        printStrang +=      `<div id="collapse${i}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${i}">`;
+        printStrang +=          `<div class="panel-body">`;
+        printStrang +=              `<p>${attraction.description}</p>`;
+        if (attraction.times != null) {
+        attraction.times.forEach((time) => {
+            runTimes += `<li>${time}</li>`;   
+        });  
+        printStrang +=          `<p>Hours of Operation:</p>`;  
+        printStrang +=             `<li>`;
+        printStrang +=                  `${runTimes}`;
+        printStrang +=             `</li>`; 
+        }
+        printStrang +=          `</div>`;
+        printStrang +=      `</div>`;
+        printStrang +=  `</div>`;
+        
+        i++;
     });
-    $('#attractions-div').removeClass('hide');  
+    printStrang += `</div>`;
     printToDom(printStrang, 'attractions-div');
-    console.log(printStrang);
+    $('#attractions-div').removeClass('hide');
 };
+
 
 const printToDom = ( str, divName ) => {
     $(`#${divName}`).html(str);
