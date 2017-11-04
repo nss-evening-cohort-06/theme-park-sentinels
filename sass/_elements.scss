@@ -2,13 +2,22 @@
 @import 'variables';
 
 /* MAIN NAV */
+
+
+#theWholeNav {
+  background-color: white;
+
+     .navbar-form {
+	       margin-left: 19%;
+  }
+}
+
 .dropdown-menu {
-	height: 164px;
-    overflow: scroll;
+  height: 164px;
+  overflow: scroll;
 }
-.navbar-form {
-	margin-left: 19%;
-}
+
+
 
 /* SEARCH INPUT */
 #inputHolder {
@@ -51,10 +60,10 @@ body {
 
 .hi {
 	border: 1px solid black;
-    width: 248px;
-    height: 187px;
-    color: white;
-    opacity: .8;
+  width: 248px;
+  height: 187px;
+  color: white;
+  opacity: .8;
 }
 
 /* FOOTER */
@@ -84,7 +93,15 @@ footer ul li {
 }
 
 #time-container {
-  height: 135px;
+  height: 76px;
+  width: 420px;
+  margin-top: -32px;
+  background-color: transparent;
+  border-style: none;
+}
+
+#time-input {
+  width: 204px;
 }
 
 
