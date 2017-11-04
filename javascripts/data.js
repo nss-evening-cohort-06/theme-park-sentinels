@@ -6,6 +6,7 @@ let parkAreas = [];
 let parkAttractions = [];
 let parkAttractionTypes = [];
 let parkInfo = [];
+let maintenanceInfo = [];
 let smashedData = [];
 
 // COMBINE AREAS INTO ATTRACTIONS DATA
@@ -77,4 +78,8 @@ const setParkInfo = (info) => {
     smashThisShitTogether();
 };
 
-module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether, attractionData};
+const setMaintenanceInfo = (times) => {
+    maintenanceInfo = times;
+};
+
+module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether, attractionData, setMaintenanceInfo};

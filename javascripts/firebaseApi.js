@@ -90,6 +90,23 @@ const getParkInfo = () => {
     });
 };
 
+const getMaintenanceInfo = () => {
+    let maintenanceData = [];
+    return new Promise((resolve, reject) => {
+        $.ajax(`${firebaseKey.databaseURL}/maintenance_tickets.json`).then((times) => {
+            if (times != null) {
+                Object.keys(times).forEach((key) => {
+                    times[key].fbId = key;
+                    maintenanceData.push(times[key]);
+                });
+            }
+            resolve(maintenanceData);
+        }).catch((error) => {
+            reject(error);
+        });
+    });
+};
+
 const dataGetter = () => {
     getParkAttractions().then((results) => {
         data.setParkAttractions(results);
@@ -106,9 +123,14 @@ const dataGetter = () => {
         });
     }).then(() => {
         getParkInfo().then((results) => {
-            data.setParkInfo(results);            
+            data.setParkInfo(results); 
+            return getMaintenanceInfo();           
         });
         
+    }).then(() => {
+        getMaintenanceInfo().then((results) => {
+            data.setMaintenanceInfo(results);
+        });
     });  
 };
 
