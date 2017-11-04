@@ -14,7 +14,7 @@ const smashThisShitTogether = () => {
     parkAreas.forEach(( area ) => {
         parkAttractions.forEach(( attraction ) => {
             if ( attraction.area_id === area.id ) {
-                attraction.areaName = area.name;
+                attraction.area_name = area.name;
             }
         });
     });
@@ -48,7 +48,7 @@ const attractionData = (area) => {
     parkAttractionTypes.forEach((type) => {
         smashedData.forEach((attraction) => {
             if (attraction.type_id === type.id) {
-                attraction.typeName = type.name;
+                attraction.type_name = type.name;
             }
         });
     });
