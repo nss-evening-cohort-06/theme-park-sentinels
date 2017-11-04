@@ -34,7 +34,7 @@ const leftDomString = ( attractions) => {
         printStrang +=  `<div class="panel panel-default">`;
         printStrang +=      `<div class="panel-heading" role="tab" id="heading${i}">`;
         printStrang +=          `<h4 class="panel-title">`;
-        printStrang +=             `<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">${attraction.name} (${attraction.typeName})</a>`;
+        printStrang +=             `<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">${attraction.name} (${attraction.type_name})</a>`;
         printStrang +=          `</h4>`;
         printStrang +=      `</div>`;
         printStrang +=      `<div id="collapse${i}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${i}">`;
