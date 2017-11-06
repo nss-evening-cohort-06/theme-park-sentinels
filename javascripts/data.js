@@ -1,6 +1,7 @@
 'use strict';
 
 const dom = require('./domHandler');
+const moment = require('./../lib/node_modules/moment/moment');
 
 let parkAreas = [];
 let parkAttractions = [];
@@ -10,7 +11,7 @@ let maintenanceInfo = [];
 let smashedData = [];
 
 // COMBINE AREAS INTO ATTRACTIONS DATA
-const smashThisShitTogether = () => {     
+const smashAreasWithAttractions = () => {     
     parkAreas.forEach(( area ) => {
         parkAttractions.forEach(( attraction ) => {
             if ( attraction.area_id === area.id ) {
@@ -62,7 +63,8 @@ const attractionData = (area) => {
 };
 
 const updateMaintenance = () => {
-    console.log('parkAttractions:', parkAttractions);
+    console.log('moment format:', moment(maintenanceInfo[0].maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').format('llll'));
+    // console.log('parkAttractions:', parkAttractions);
     console.log('maintenanceInfo:', maintenanceInfo);
 };
 
@@ -80,7 +82,7 @@ const setParkAttractionTypes = (attractionTypes) => {
 
 const setParkInfo = (info) => {
     parkInfo = info;
-    smashThisShitTogether();
+    smashAreasWithAttractions();
 };
 
 const setMaintenanceInfo = (times) => {
@@ -88,4 +90,4 @@ const setMaintenanceInfo = (times) => {
     updateMaintenance();
 };
 
-module.exports = {updateMaintenance, filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether, attractionData, setMaintenanceInfo};
+module.exports = {updateMaintenance, filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashAreasWithAttractions, attractionData, setMaintenanceInfo};
