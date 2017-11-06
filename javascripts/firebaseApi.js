@@ -134,4 +134,18 @@ const dataGetter = () => {
     });  
 };
 
-module.exports = {setKey, dataGetter};
+const updateAttractionMaintenance = ( updatedAttraction ) => {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            method: "PUT",
+            url: `${firebaseKey.databaseURL}/attractions.json`,
+            data: JSON.stringify( updatedAttraction )
+        }).then((result) => {
+            resolve(result);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+};
+
+module.exports = {updateAttractionMaintenance, setKey, dataGetter};
