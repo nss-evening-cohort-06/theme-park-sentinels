@@ -1,11 +1,18 @@
 'use strict';
 const events = require('./events');
 const apiKeys = require('./apiKeys');
+let moment = require('../lib/node_modules/moment/moment.js');
+moment().format();
+// const copyright = require('./copyright');
+
 const copyright = require('./copyright');
-const moment = require('../lib/node_modules/moment/moment');
+
+
 
 
 $(document).ready(function(){
     apiKeys.retrieveKeys();
     events.init();
+    $('#time').bootstrapMaterialDatePicker({ date: false });
 });
+
