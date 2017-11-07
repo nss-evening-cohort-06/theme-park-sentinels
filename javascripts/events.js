@@ -51,6 +51,7 @@ const init = () => {
     searchBarBtnClick();
     searchBarKeypress();
     displayAttractions();
+
 };
 
 
