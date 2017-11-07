@@ -36,9 +36,8 @@ const updateMaintenance = () => {
                         });
                     });
                     attractionMaintenanceData = attractionData;
-                    console.log(attractionMaintenanceData);
-                    resolve(maintenanceTickets);
-                   
+                    let workingAttractions = outOfOrderAttractions(attractionMaintenanceData);
+                    resolve(workingAttractions);            
                 }
             }).catch((error) => {
                 reject(error);
@@ -49,6 +48,20 @@ const updateMaintenance = () => {
         }).catch((error) => {
             reject(error);
         });
+    });
+};
+
+const workingAttractions = (attractions) => {
+    let workingStuff = [];
+    let currentTime = getCurrentTimeInUnix();
+    attractions.forEach(( attraction, i ) => {
+        let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').unix();        
+        let maintenanceDuration = attraction.maintenance_duration_hours;        
+        if ( currentTime > maintenanceStartTime + maintenanceDuration || currentTime < maintenanceStartTime ) {
+            workingStuff.push(attraction);        
+            // firebaseApi.updateAttractionMaintenance( updatedAttraction, index );
+            // console.log('current time is greater then that shit', maintenanceStartTime);            
+        } 
     });
 };
 
