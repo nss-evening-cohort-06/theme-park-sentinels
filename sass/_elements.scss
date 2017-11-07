@@ -1,12 +1,109 @@
+@import 'colors';
+@import 'variables';
+
+/* MAIN NAV */
+
+
+#theWholeNav {
+  background-color: white;
+
+     .navbar-form {
+	       margin-left: 19%;
+  }
+}
+
 .dropdown-menu {
-	height: 164px;
-    overflow: scroll;
+  height: 164px;
+  overflow: scroll;
 }
 
-.navbar-form {
-	margin-left: 19%;
-}
 
+
+/* SEARCH INPUT */
 #inputHolder {
 	    width: 327px;
 }
+
+
+
+/* SIDEBAR */
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.margin-fixed {
+  margin-bottom: 200px;
+}
+
+body {
+  padding-bottom: 70px;
+}
+
+/* GRID */
+
+.hi {
+	border: 1px solid black;
+  width: 248px;
+  height: 187px;
+  color: white;
+  opacity: .8;
+}
+
+/* FOOTER */
+footer ul li {
+	list-style: none;
+}
+#footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  height: 40px;
+  background-color: $footer-background-color;
+  text-align: center;
+}
+
+/* HIGHLIGHT BORDER */
+.border-highlight {
+  border: $border-highlight;
+}
+
+/* TIME ELEMENT */
+
+.this-b-cray {
+  height: 20px;
+}
+
+#time-container {
+  height: 76px;
+  width: 420px;
+  margin-top: -32px;
+  background-color: transparent;
+  border-style: none;
+}
+
+#time-input {
+  width: 204px;
+}
+
+
+
+

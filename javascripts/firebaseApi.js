@@ -2,7 +2,10 @@
 
 let firebaseKey = '';
 let userUid = '';
+let attractionData = [];
+let maintenanceTickets = [];
 const data = require('./data');
+const moment = require('../lib/node_modules/moment/moment.js');
 
 
 const setKey = (key) => {
@@ -10,8 +13,8 @@ const setKey = (key) => {
 };
 
 const updateMaintenance = () => {
-    let attractionData = [];
-    let maintenanceTickets = [];
+    
+    let smashedData = [];
     return new Promise ((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
             if (attractions != null) {
@@ -26,23 +29,26 @@ const updateMaintenance = () => {
                         tickets[key].fbId = key;
                         maintenanceTickets.push(tickets[key]);
                     });
+
+                    // maintenanceTickets maintenanceDate
                     let attractionMaintenanceData = [];
-                        maintenanceTickets.forEach(( maintenanceDate ) => {
                         attractionData.forEach(( attraction ) => {
-                            if ( attraction.id === maintenanceDate.attraction_id ) {
-                                attraction.maintenance_date = maintenanceDate.maintenance_date;
-                                attraction.maintenance_duration = maintenanceDate.maintenance_duration_hours;
+                        maintenanceTickets.forEach(( maintenanceDate ) => {
+                            if ( maintenanceDate.attraction_id === attraction.id ) {
+                                attraction.maintenance_date  = maintenanceDate.maintenance_date;
+                                attraction.maintenance_duration_hours = maintenanceDate.maintenance_duration;
+                                smashedData.push(attraction);
                             }
                         });
                     });
-                    attractionMaintenanceData = attractionData;
-                    let workingAttractions = outOfOrderAttractions(attractionMaintenanceData);
-                    resolve(workingAttractions);            
+                    
+                    let brokenAttractions = outOfOrderAttractions(smashedData);
+                    resolve(brokenAttractions);            
                 }
             }).catch((error) => {
                 reject(error);
             });
-            resolve(attractionData);
+            
             // console.log(maintenanceTickets);
             // console.log(attractionData);
         }).catch((error) => {
@@ -51,9 +57,10 @@ const updateMaintenance = () => {
     });
 };
 
-const workingAttractions = (attractions) => {
+const outOfOrderAttractions = (attractions) => {
     let workingStuff = [];
-    let currentTime = getCurrentTimeInUnix();
+    // console.log(attractions);
+    let currentTime = moment().unix();
     attractions.forEach(( attraction, i ) => {
         let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').unix();        
         let maintenanceDuration = attraction.maintenance_duration_hours;        
@@ -63,7 +70,10 @@ const workingAttractions = (attractions) => {
             // console.log('current time is greater then that shit', maintenanceStartTime);            
         } 
     });
+    // console.log('THIS SHIT WORKS', workingStuff);
+    return workingStuff.unique('id');
 };
+
 
 // const getParkAreas = () => {
 //     let parkData = [];
@@ -155,8 +165,21 @@ const workingAttractions = (attractions) => {
 //     });  
 // };
 
-// const functioningRides = () => {
-//     updateMaintenance().then(results)
-// }
+const functioningRides = () => {
+    let workingRides = [];
+    updateMaintenance().then((results) => {
+        console.log(results);
+        attractionData.forEach((attraction) => {
+            results.forEach((result) => {
+                if (result.id != attraction.id) {
+                    workingRides.push(attraction);
+                }
+            });
+        });
+        console.log(workingRides);
+    }).catch((error) => {
+        console.log("error in functioning rides", error);
+    });
+};
 
-  module.exports = {setKey, updateMaintenance};
+  module.exports = {setKey, functioningRides};
