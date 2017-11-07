@@ -4,6 +4,9 @@ let firebaseKey = '';
 let userUid = '';
 let attractionData = [];
 let maintenanceTickets = [];
+let parkAttractionTypes = [];
+let parkInfo = [];
+let parkAreas = [];
 const data = require('./data');
 const moment = require('../lib/node_modules/moment/moment.js');
 
@@ -101,21 +104,49 @@ const getParkInfo = () => {
     });
 };
 
+// const dataGetter = () => {
+//     let parkAreas, attractionTypes, info;
+//     return new Promise ((resolve,reject) => {
+//         getParkAreas().then((results) => {
+//             parkAreas = results;
+//             return getParkAttractionTypes();
+//         }).then(() => {
+//         getParkAttractionTypes().then((results) => {
+//             parkAttractionTypes = results;
+//             return getParkInfo();
+//         });
+//         }).then(() => {
+//             getParkInfo().then((results) => {
+//                 parkInfo = results;
+//             });    
+//         });
+//     }).then((result) => {
+//         resolve(result);
+//     }).catch((error) => {
+//        console.log(error);
+//     });        
+// };
+
 const dataGetter = () => {
-        getParkAreas().then((results) => {
-            data.setParkAreas(results);
+    return new Promise((resolve, reject) => {
+        getParkAreas().then((areas) => {
+            console.log(areas);  
             return getParkAttractionTypes();
-        }).then(() => {
-        getParkAttractionTypes().then((results) => {
-            data.setParkAttractionTypes(results);
-            return getParkInfo();
-        });
-    }).then(() => {
-        getParkInfo().then((results) => {
-            data.setParkInfo(results);
-        });
-        
-    });  
+          }).then(() => {
+              getParkAttractionTypes.then((types) => {
+                  console.log(types);
+                  return getParkInfo();
+              }).then(() => {
+                  getParkInfo().then((info) => {
+                      console.log(info);
+                  });
+              });
+          });
+    }).then((results) => {
+        // resolve(results);
+    }).catch((error) => {
+        // reject(error);
+    });
 };
 
 const outOfOrderAttractions = (attractions) => {
@@ -144,7 +175,11 @@ const functioningRides = () => {
             });
         });
         data.setParkAttractions();
-        dataGetter();
+        dataGetter().then((fullData) => {
+            console.log(parkAreas);
+            console.log(parkAttractionTypes);
+            console.log(parkInfo);
+        });
     }).catch((error) => {
         console.log("error in functioning rides", error);
     });
