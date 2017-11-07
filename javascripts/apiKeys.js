@@ -16,7 +16,8 @@ const retrieveKeys = () => {
     apiKeys().then((results) => {
         firebaseApi.setKey(results);
         firebase.initializeApp(results);
-        firebaseApi.dataGetter();
+        // firebaseApi.dataGetter();
+        firebaseApi.updateMaintenance();
     }).catch((error) => {
         console.log('error in retrieve keys', error);
     });
