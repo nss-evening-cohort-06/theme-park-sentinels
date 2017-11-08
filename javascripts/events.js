@@ -5,6 +5,9 @@ const data = require('./data');
 let searchBar = $('#inputHolder');
 let submitBtn = $('#submitBtn');
 
+
+
+
 // SEARCH INPUT EVENTS
 const searchBarBtnClick = () => {
     submitBtn.click(( e ) => {
@@ -36,6 +39,7 @@ const displayAttractions = () => {
 
 
 // INITIALIZE EVENTS IN MAIN.JS
+
 const init = () => {
     searchBarBtnClick();
     searchBarKeypress();

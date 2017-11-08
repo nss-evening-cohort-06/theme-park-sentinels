@@ -11,19 +11,6 @@ let parkInfo = [];
 let maintenanceInfo = [];
 let smashedAreasWithAttractions = [];
 
-// COMBINE AREAS INTO ATTRACTIONS DATA
-const smashAreasWithAttractions = () => {     
-    parkAreas.forEach(( area ) => {
-        parkAttractions.forEach(( attraction ) => {
-            if ( attraction.area_id === area.id ) {
-                attraction.area_name = area.name;
-            }
-        });
-    });
-    smashedAreasWithAttractions = parkAttractions;
-    dom.mainDomString( parkAreas, smashedAreasWithAttractions );
-};
-
 // FILTER USER SEARCH QUERY AND FIRE HIGHLIGHT FUNC
 const filterSearchTxt = ( txt ) => {
     txt = txt.toUpperCase();
@@ -63,12 +50,13 @@ const attractionData = (area) => {
     dom.leftDomString(printArray);
 };
 
-const getCurrentTimeInUnix = () => {
-    return moment().unix();
-};
 
 const setParkAreas = (areas) => {
     parkAreas = areas;
+};
+
+const setSmashedData = (data) => {
+    smashedData = data;
 };
 
 const setParkAttractions = (attractions) => {
@@ -82,12 +70,6 @@ const setParkAttractionTypes = (attractionTypes) => {
 
 const setParkInfo = (info) => {
     parkInfo = info;
-    smashAreasWithAttractions();
 };
 
-const setMaintenanceInfo = (times) => {
-    maintenanceInfo = times;
-    return times;
-};
-
-module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashAreasWithAttractions, attractionData, setMaintenanceInfo};
+module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, attractionData, setSmashedData};
