@@ -32,9 +32,10 @@ const updateMaintenance = () => {
                     let attractionMaintenanceData = [];
                         attractionData.forEach(( attraction ) => {
                         maintenanceTickets.forEach(( maintenanceDate ) => {
+                            // console.log('maintenanceDate', maintenanceDate);
                             if ( maintenanceDate.attraction_id === attraction.id ) {
                                 attraction.maintenance_date  = maintenanceDate.maintenance_date;
-                                attraction.maintenance_duration_hours = maintenanceDate.maintenance_duration;
+                                attraction.maintenance_duration_hours = maintenanceDate.maintenance_duration_hours;
                                 combinedAttractionTicketData.push(attraction);
                             }
                         });
@@ -150,7 +151,8 @@ const functioningRides = () => {
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
             data.setParkInfo(results.parkInfo);
-            let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData);
+            updateFirebaseAttractions(attractionData);
+            let areasAndAttractions = smashAreasAttractions(results.parkAreas, attractionData);
             data.setSmashedData(areasAndAttractions);
             dom.mainDomString(results.parkAreas, areasAndAttractions);
         });
@@ -159,8 +161,36 @@ const functioningRides = () => {
     });
 };
 
+const updateFirebaseAttractions = ( attractionsToBeUpdated ) => {
+    console.log('attractionsToBe:', attractionsToBeUpdated);
+    let updatedAttractions = attractionsToBeUpdated.filter(( attraction ) => {
+        if ( attraction.out_of_order === true ) {
+            return attraction;
+        }
+    }).map(( changeAttr ) => {
+        changeAttr.out_of_order = false;
+        return changeAttr;
+    });
+    console.log('updatedAttractions:', updatedAttractions);
+};
+
+const updateEachAttraction = (attraction) => {
+    attraction.uid = userUid;
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            method: "PUT",
+            url: `${firebaseKey.databaseURL}/attractions/${attraction.fbId}.json`,
+            data: JSON.stringify(attraction)
+        }).then((result) => {
+            resolve(result);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+};
+
 // COMBINE AREAS INTO ATTRACTIONS DATA
-const smashThisShitTogether = (parkAreas, parkAttractions) => {     
+const smashAreasAttractions = (parkAreas, parkAttractions) => {     
     let smashedData = [];
     parkAreas.forEach(( area ) => {
         parkAttractions.forEach(( attraction ) => {
