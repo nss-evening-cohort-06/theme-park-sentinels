@@ -151,6 +151,7 @@ const functioningRides = () => {
             data.setParkAttractionTypes(results.parkAttractionTypes);
             data.setParkInfo(results.parkInfo);
             let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData);
+            data.setSmashedData(areasAndAttractions);
             dom.mainDomString(results.parkAreas, areasAndAttractions);
         });
     }).catch((error) => {

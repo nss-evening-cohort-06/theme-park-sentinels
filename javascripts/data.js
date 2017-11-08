@@ -53,6 +53,10 @@ const setParkAreas = (areas) => {
     parkAreas = areas;
 };
 
+const setSmashedData = (data) => {
+    smashedData = data;
+};
+
 const setParkAttractions = (attractions) => {
     parkAttractions = attractions;
 };
@@ -63,12 +67,6 @@ const setParkAttractionTypes = (attractionTypes) => {
 
 const setParkInfo = (info) => {
     parkInfo = info;
-    smashThisShitTogether();
 };
 
-const setMaintenanceInfo = (times) => {
-    maintenanceInfo = times;
-    updateMaintenance();
-};
-
-module.exports = {updateMaintenance, filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashThisShitTogether, attractionData, setMaintenanceInfo};
+module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, attractionData, setSmashedData};
