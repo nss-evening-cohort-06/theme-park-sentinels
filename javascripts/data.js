@@ -1,15 +1,13 @@
 'use strict';
 
 const dom = require('./domHandler');
-const moment = require('./../lib/node_modules/moment/moment');
-const firebaseApi = require('./firebaseApi');
 
 let parkAreas = [];
 let parkAttractions = [];
 let parkAttractionTypes = [];
 let parkInfo = [];
 let maintenanceInfo = [];
-let smashedAreasWithAttractions = [];
+let smashedData = [];
 
 // FILTER USER SEARCH QUERY AND FIRE HIGHLIGHT FUNC
 const filterSearchTxt = ( txt ) => {
@@ -35,14 +33,14 @@ const attractionData = (area) => {
     let printArray = [];
 
     parkAttractionTypes.forEach((type) => {
-        smashedAreasWithAttractions.forEach((attraction) => {
+        smashedData.forEach((attraction) => {
             if (attraction.type_id === type.id) {
                 attraction.type_name = type.name;
             }
         });
     });
     
-    smashedAreasWithAttractions.forEach((thing) => {
+    smashedData.forEach((thing) => {
         if (thing.area_id === area) {
             printArray.push(thing);
         }
