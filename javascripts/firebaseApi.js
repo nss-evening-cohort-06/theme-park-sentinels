@@ -4,11 +4,9 @@ let firebaseKey = '';
 let userUid = '';
 let attractionData = [];
 let maintenanceTickets = [];
-let parkAttractionTypes = [];
-let parkInfo = [];
-let parkAreas = [];
 const data = require('./data');
 const moment = require('../lib/node_modules/moment/moment.js');
+const dom = require('./domHandler');
 
 const setKey = (key) => {
     firebaseKey = key;
@@ -104,48 +102,21 @@ const getParkInfo = () => {
     });
 };
 
-// const dataGetter = () => {
-//     let parkAreas, attractionTypes, info;
-//     return new Promise ((resolve,reject) => {
-//         getParkAreas().then((results) => {
-//             parkAreas = results;
-//             return getParkAttractionTypes();
-//         }).then(() => {
-//         getParkAttractionTypes().then((results) => {
-//             parkAttractionTypes = results;
-//             return getParkInfo();
-//         });
-//         }).then(() => {
-//             getParkInfo().then((results) => {
-//                 parkInfo = results;
-//             });    
-//         });
-//     }).then((result) => {
-//         resolve(result);
-//     }).catch((error) => {
-//        console.log(error);
-//     });        
-// };
-
 const dataGetter = () => {
-    return new Promise((resolve, reject) => {
-        getParkAreas().then((areas) => {
-            console.log(areas);  
-            return getParkAttractionTypes();
-          }).then(() => {
-              getParkAttractionTypes.then((types) => {
-                  console.log(types);
-                  return getParkInfo();
-              }).then(() => {
-                  getParkInfo().then((info) => {
-                      console.log(info);
-                  });
-              });
-          });
-    }).then((results) => {
-        // resolve(results);
-    }).catch((error) => {
-        // reject(error);
+let parkAreas, parkAttractionTypes, parkInfo;
+return new Promise((resolve, reject) => {
+        getParkAreas().then((results) => {
+        parkAreas = results;
+            getParkAttractionTypes().then((results) => {
+                parkAttractionTypes = results; 
+                    getParkInfo().then((results) => {
+                        parkInfo = results;   
+                        resolve({parkAreas, parkAttractionTypes, parkInfo});  
+                    }).catch((error) => {
+                        reject(error);
+                    });
+            });
+        });
     });
 };
 
@@ -174,11 +145,9 @@ const functioningRides = () => {
                 }
             });
         });
-        data.setParkAttractions();
-        dataGetter().then((fullData) => {
-            console.log(parkAreas);
-            console.log(parkAttractionTypes);
-            console.log(parkInfo);
+        dataGetter().then((data) => {
+            console.log(data);
+            console.log(attractionData);
         });
     }).catch((error) => {
         console.log("error in functioning rides", error);
