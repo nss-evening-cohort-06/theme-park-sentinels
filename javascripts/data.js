@@ -59,7 +59,6 @@ const setSmashedData = (data) => {
 
 const setParkAttractions = (attractions) => {
     parkAttractions = attractions;
-    return attractions;
 };
 
 const setParkAttractionTypes = (attractionTypes) => {
