@@ -10,7 +10,6 @@ let parkAttractionTypes = [];
 let parkInfo = [];
 let maintenanceInfo = [];
 let smashedAreasWithAttractions = [];
-let smashedMaintenanceInfoWithAttractions = [];
 
 // COMBINE AREAS INTO ATTRACTIONS DATA
 const smashAreasWithAttractions = () => {     
@@ -64,37 +63,6 @@ const attractionData = (area) => {
     dom.leftDomString(printArray);
 };
 
-const smashMaintenanceInfoWithAttractions = () => {
-    maintenanceInfo.forEach(( maintenanceDate ) => {
-        parkAttractions.forEach(( attraction ) => {
-            if ( attraction.id === maintenanceDate.attraction_id ) {
-                maintenanceDate.attractionName = attraction.name;
-                // maintenanceDate.out_of_order = attraction.out_of_order;
-            }
-        });
-    });
-    smashedMaintenanceInfoWithAttractions = maintenanceInfo;
-    updateMaintenance();
-};
-
-const updateMaintenance = () => {    
-    console.log('parkAttractions:', parkAttractions);
-    console.log('smashedMaintenanceInfoWithAttractions:', smashedMaintenanceInfoWithAttractions);
-    let currentTime = getCurrentTimeInUnix();
-    maintenanceInfo.forEach(( maintenanceDate, i ) => {
-        let maintenanceStartTime = moment(maintenanceDate.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').unix();        
-        if ( currentTime > maintenanceStartTime + maintenanceDate.maintenance_duration_hours ) {
-            let updatedAttraction = {
-
-            };
-            
-            // firebaseApi.updateAttractionMaintenance( updatedAttraction );
-            // console.log('current time is greater then that shit', maintenanceStartTime);            
-        } 
-        // console.log('that shit is not greater', maintenanceStartTime);
-    });
-};
-
 const getCurrentTimeInUnix = () => {
     return moment().unix();
 };
@@ -105,6 +73,7 @@ const setParkAreas = (areas) => {
 
 const setParkAttractions = (attractions) => {
     parkAttractions = attractions;
+    return attractions;
 };
 
 const setParkAttractionTypes = (attractionTypes) => {
@@ -118,7 +87,7 @@ const setParkInfo = (info) => {
 
 const setMaintenanceInfo = (times) => {
     maintenanceInfo = times;
-    smashMaintenanceInfoWithAttractions();    
+    return times;
 };
 
-module.exports = {updateMaintenance, filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashAreasWithAttractions, attractionData, setMaintenanceInfo};
+module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, smashAreasWithAttractions, attractionData, setMaintenanceInfo};

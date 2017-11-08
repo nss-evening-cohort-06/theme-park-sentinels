@@ -5,16 +5,6 @@ const data = require('./data');
 let searchBar = $('#inputHolder');
 let submitBtn = $('#submitBtn');
 
-// const googleAuth = () => {
-//     $('#googleauth').click((e) => {
-//         firebaseApi.authenticateGoogle().then((result) => {
-//             console.log(result);
-//         }).catch((error) => {
-//             console.log("error in authenticate google", error);
-//         });
-//     });
-// };
-
 // SEARCH INPUT EVENTS
 const searchBarBtnClick = () => {
     submitBtn.click(( e ) => {
@@ -47,7 +37,6 @@ const displayAttractions = () => {
 
 // INITIALIZE EVENTS IN MAIN.JS
 const init = () => {
-    // googleAuth();
     searchBarBtnClick();
     searchBarKeypress();
     displayAttractions();

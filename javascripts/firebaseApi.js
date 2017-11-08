@@ -3,24 +3,11 @@
 let firebaseKey = '';
 let userUid = '';
 const data = require('./data');
+const moment = require('./../lib/node_modules/moment/moment');
 
 const setKey = (key) => {
     firebaseKey = key;
 };
-
-// let authenticateGoogle = () => {
-//     return new Promise((resolve, reject) => {
-//       var provider = new firebase.auth.GoogleAuthProvider();
-//       firebase.auth().signInWithPopup(provider)
-//         .then((authData) => {
-//             userUid = authData.user.uid;
-//             resolve(authData.user);
-//             dataGetter();
-//         }).catch((error) => {
-//             reject(error);
-//         });
-//     });
-//   };
 
 const getParkAreas = () => {
     let parkData = [];
@@ -38,9 +25,9 @@ const getParkAreas = () => {
         });
     });
 };
-
+let attractionData = [];
 const getParkAttractions = () => {
-    let attractionData = [];
+    
     return new Promise((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
             if (attractions != null) {
@@ -108,37 +95,78 @@ const getMaintenanceInfo = () => {
 };
 
 const dataGetter = () => {
-    getParkAttractions().then((results) => {
-        data.setParkAttractions(results);
-       return getParkAreas();
-    }).then(() => {
-        getParkAreas().then((results) => {
-            data.setParkAreas(results);
-            return getParkAttractionTypes();
-        });
-    }).then(() => {
-        getParkAttractionTypes().then((results) => {
-            data.setParkAttractionTypes(results);
-            return getParkInfo();
-        });
-    }).then(() => {
-        getParkInfo().then((results) => {
-            data.setParkInfo(results); 
-            return getMaintenanceInfo();           
-        });
-        
-    }).then(() => {
-        getMaintenanceInfo().then((results) => {
-            data.setMaintenanceInfo(results);
+    return new Promise(( resolve, reject ) => {
+        getParkAttractions().then((results) => {
+            data.setParkAttractions(results);
+        return getParkAreas();
+        }).then(() => {
+            getParkAreas().then((results) => {
+                data.setParkAreas(results);
+                return getParkAttractionTypes();
+            });
+        }).then(() => {
+            getParkAttractionTypes().then((results) => {
+                data.setParkAttractionTypes(results);
+                return getParkInfo();
+            });
+        }).then(() => {
+            getParkInfo().then((results) => {
+                data.setParkInfo(results); 
+                return getMaintenanceInfo();           
+            });
+            
+        }).then(() => {
+            getMaintenanceInfo().then((maintenanceInfo) => {
+                data.setMaintenanceInfo(maintenanceInfo);
+                smashMaintenanceInfoWithAttractions(maintenanceInfo);
+            });
+        }).then((results) => {
+            resolve(results);
         });
     });  
 };
 
-const updateAttractionMaintenance = ( updatedAttraction ) => {
+const getCurrentTimeInUnix = () => {
+    return moment().unix();
+};
+
+const smashMaintenanceInfoWithAttractions = (maintenanceInfo) => {
+    let smashedMaintenanceInfoWithAttractions = [];
+    maintenanceInfo.forEach(( maintenanceDate ) => {
+        attractionData.forEach(( attraction ) => {
+            if ( attraction.id === maintenanceDate.attraction_id ) {
+                attraction.maintenance_date = maintenanceDate.maintenance_date;
+                attraction.maintenance_duration = maintenanceDate.maintenance_duration_hours;
+            }
+        });
+    });
+    smashedMaintenanceInfoWithAttractions = attractionData;       
+    console.log('smashedMaintenanceInfoWithAttractions:', smashedMaintenanceInfoWithAttractions);
+    // updateMaintenance(smashedMaintenanceInfoWithAttractions);
+};
+
+const updateMaintenance = (smashedMaintenanceInfoWithAttractions) => {           
+    let currentTime = getCurrentTimeInUnix();
+    let maintenanceInfo = data.setMaintenanceInfo();
+    maintenanceInfo.forEach(( maintenanceDate, i ) => {
+        let maintenanceStartTime = moment(maintenanceDate.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').unix();        
+        let maintenanceDuration = maintenanceDate.maintenance_duration_hours;        
+        if ( currentTime > maintenanceStartTime + maintenanceDuration ) {
+            let updatedAttraction = {
+                fbId: '',
+                out_of_order: '',
+            };            
+            // firebaseApi.updateAttractionMaintenance( updatedAttraction, index );
+            // console.log('current time is greater then that shit', maintenanceStartTime);            
+        } 
+    });
+};
+
+const updateAttractionMaintenance = ( updatedAttraction, index ) => {
     return new Promise((resolve, reject) => {
         $.ajax({
             method: "PUT",
-            url: `${firebaseKey.databaseURL}/attractions.json`,
+            url: `${firebaseKey.databaseURL}/attractions/${index}.json`,
             data: JSON.stringify( updatedAttraction )
         }).then((result) => {
             resolve(result);
