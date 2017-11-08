@@ -31,7 +31,6 @@ const searchBarKeypress = () => {
 const displayAttractions = () => {
     $('body').click((e) => {
         if (e.target.id.includes('area')) {
-            console.log('event');
             let areaData = parseInt(e.target.id.split('-').pop());
             data.attractionData(areaData);
         }
