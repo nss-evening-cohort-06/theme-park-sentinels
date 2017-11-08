@@ -1,12 +1,12 @@
 'use strict';
 
+const data = require('./data');
+const moment = require('../lib/node_modules/moment/moment.js');
+const dom = require('./domHandler');
 let firebaseKey = '';
 let userUid = '';
 let attractionData = [];
 let maintenanceTickets = [];
-const data = require('./data');
-const moment = require('../lib/node_modules/moment/moment.js');
-const dom = require('./domHandler');
 
 const setKey = (key) => {
     firebaseKey = key;
@@ -145,13 +145,31 @@ const functioningRides = () => {
                 }
             });
         });
-        dataGetter().then((data) => {
-            console.log(data);
-            console.log(attractionData);
+        dataGetter().then((results) => {
+            data.setParkAreas(results.parkAreas);
+            data.setParkAttractions(attractionData);
+            data.setParkAttractionTypes(results.parkAttractionTypes);
+            data.setParkInfo(results.parkInfo);
+            let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData);
+            dom.mainDomString(results.parkAreas, areasAndAttractions);
         });
     }).catch((error) => {
         console.log("error in functioning rides", error);
     });
+};
+
+// COMBINE AREAS INTO ATTRACTIONS DATA
+const smashThisShitTogether = (parkAreas, parkAttractions) => {     
+    let smashedData = [];
+    parkAreas.forEach(( area ) => {
+        parkAttractions.forEach(( attraction ) => {
+            if ( attraction.area_id === area.id ) {
+                attraction.area_name = area.name;
+            }
+        });
+    });
+    smashedData = parkAttractions;
+    return smashedData;
 };
 
   module.exports = {setKey, functioningRides, dataGetter};
