@@ -9,19 +9,6 @@ let parkInfo = [];
 let maintenanceInfo = [];
 let smashedData = [];
 
-// COMBINE AREAS INTO ATTRACTIONS DATA
-const smashThisShitTogether = () => {     
-    parkAreas.forEach(( area ) => {
-        parkAttractions.forEach(( attraction ) => {
-            if ( attraction.area_id === area.id ) {
-                attraction.area_name = area.name;
-            }
-        });
-    });
-    smashedData = parkAttractions;
-    dom.mainDomString( parkAreas, smashedData );
-};
-
 // FILTER USER SEARCH QUERY AND FIRE HIGHLIGHT FUNC
 const filterSearchTxt = ( txt ) => {
     txt = txt.toUpperCase();
@@ -61,10 +48,6 @@ const attractionData = (area) => {
     dom.leftDomString(printArray);
 };
 
-const updateMaintenance = () => {
-    console.log('parkAttractions:', parkAttractions);
-    console.log('maintenanceInfo:', maintenanceInfo);
-};
 
 const setParkAreas = (areas) => {
     parkAreas = areas;

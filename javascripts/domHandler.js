@@ -3,7 +3,7 @@
 const firebaseApi = require('./firebaseApi');
 
 
-const mainDomString = ( parkAreas, smashedData ) => {
+const mainDomString = ( parkAreas, areasAndAttractions ) => {
     let str = '';
     parkAreas.forEach(( area, i ) => {
         if (i % 3 === 0) {
@@ -13,13 +13,13 @@ const mainDomString = ( parkAreas, smashedData ) => {
             str += `<div class='empty hi col-xs-4'><h3>Entrance</h3></div>`;
         }
         str += `<div id='area-${area.id}' class='hi col-xs-4'><h3>${area.name}</h3>`;
-        smashedData.forEach(( attraction ) => {
+        areasAndAttractions.forEach(( attraction ) => {
             if ( area.id === attraction.area_id ) {
                 str += `<div id='attraction-${attraction.id}' class='hi col-xs-4 hidden'><p>${attraction.name}</p></div>`;
             }
         });
         str += `</div>`;
-        if (i % 3 === 2 || i === smashedData.length - 1) {
+        if (i % 3 === 2 || i === areasAndAttractions.length - 1) {
             str += `</div>`;
         }
     });
