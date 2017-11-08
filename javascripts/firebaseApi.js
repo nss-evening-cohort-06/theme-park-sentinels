@@ -161,9 +161,9 @@ const functioningRides = () => {
     });
 };
 
-const updateFirebaseAttractions = ( attractionsToBeUpdated ) => {
-    console.log('attractionsToBe:', attractionsToBeUpdated);
-    let updatedAttractions = attractionsToBeUpdated.filter(( attraction ) => {
+const updateFirebaseAttractions = ( workingAttractions ) => {
+    console.log('workingAttractions:', workingAttractions);
+    let updatedAttractions = workingAttractions.filter(( attraction ) => {
         if ( attraction.out_of_order === true ) {
             return attraction;
         }
