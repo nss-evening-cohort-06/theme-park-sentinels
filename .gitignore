@@ -4,3 +4,4 @@ lib/package-lock.json
 dist/app.js
 styles/main.css
 db/apiKeys.json
+public

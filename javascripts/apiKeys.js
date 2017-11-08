@@ -4,7 +4,7 @@ const firebaseApi = require('./firebaseApi');
 
 const apiKeys = () => {
     return new Promise((resolve, reject) => {
-        $.ajax('./db/apikeys.json').done((data) => {
+        $.ajax('./db/apiKeys.json').done((data) => {
             resolve(data.firebaseKeys);
         }).fail((error) => {
             reject(error);
