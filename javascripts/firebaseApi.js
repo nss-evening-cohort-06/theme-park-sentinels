@@ -163,19 +163,6 @@ const functioningRides = () => {
 };
 
 // COMBINE AREAS INTO ATTRACTIONS DATA
-// const smashThisShitTogether = (parkAreas, parkAttractions, parkAttractionTypes) => {   
-// let smashedData = [];  
-//     parkAreas.forEach(( area ) => {
-//         parkAttractions.forEach(( attraction ) => {
-//             if ( attraction.area_id === area.id ) {
-//                 attraction.area_name = area.name;
-//             }
-//         });
-//     });
-
-//     smashedData = parkAttractions;
-//     return smashedData;
-// };
 
 const smashThisShitTogether = (parkAreas, parkAttractions, parkAttractionTypes) => {   
 let smashedData = [];  
@@ -196,8 +183,6 @@ let smashedData = [];
 
 // CURRENT TIME 
 
-
-
 const grabOpenAttractions = (attractions) => {
     let printArray = [];
     let format = 'hh:mm a';
@@ -206,19 +191,12 @@ const grabOpenAttractions = (attractions) => {
      attractionData.forEach((attraction, i) => {
      if (attraction.times != null) {
         attraction.times.forEach((time) => { 
-     if  (moment(time, format).isBetween(moment(currentTime, format), moment(endTime, format))){
-          // (moment('05:50:00 am', format).isBetween(moment('05:30:00 am',format), moment('06:50:00 am',format))){
-     
-        printArray.push(attraction);
-
+     if (moment(time, format).isBetween(moment(currentTime, format), moment(endTime, format))){
+         printArray.push(attraction);
         } else {
-
-         // console.log('is not between', attraction.times);
-
-        }
-        });
-     }
-     
+       }
+    });
+   }   
  }); 
      dom.leftDomString(printArray);
 };
