@@ -1,6 +1,7 @@
 'use strict';
 
 const dom = require('./domHandler');
+let moment = require('../lib/node_modules/moment/moment.js');
 
 let parkAreas = [];
 let parkAttractions = [];
@@ -31,19 +32,11 @@ const highlightFilteredAttractions = ( filteredResults ) => {
 // GET DATA FOR ATTRACTIONS AND ATTRACTION TYPES
 const attractionData = (area) => {
     let printArray = [];
-
-    parkAttractionTypes.forEach((type) => {
-        smashedData.forEach((attraction) => {
-            if (attraction.type_id === type.id) {
-                attraction.type_name = type.name;
-            }
-        });
-    });
     
     smashedData.forEach((thing) => {
         if (thing.area_id === area) {
             printArray.push(thing);
-        }
+        } 
     });
     dom.leftDomString(printArray);
 };
@@ -68,5 +61,9 @@ const setParkAttractionTypes = (attractionTypes) => {
 const setParkInfo = (info) => {
     parkInfo = info;
 };
+
+
+
+
 
 module.exports = {filterSearchTxt, setParkAreas, setParkAttractions, setParkAttractionTypes, setParkInfo, attractionData, setSmashedData};

@@ -8,6 +8,7 @@ let userUid = '';
 let attractionData = [];
 let maintenanceTickets = [];
 
+
 const setKey = (key) => {
     firebaseKey = key;
 };
@@ -150,9 +151,11 @@ const functioningRides = () => {
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
             data.setParkInfo(results.parkInfo);
-            let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData);
+            let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData, results.parkAttractionTypes);
             data.setSmashedData(areasAndAttractions);
+            grabOpenAttractions(areasAndAttractions);
             dom.mainDomString(results.parkAreas, areasAndAttractions);
+ 
         });
     }).catch((error) => {
         console.log("error in functioning rides", error);
@@ -160,17 +163,65 @@ const functioningRides = () => {
 };
 
 // COMBINE AREAS INTO ATTRACTIONS DATA
-const smashThisShitTogether = (parkAreas, parkAttractions) => {     
-    let smashedData = [];
+// const smashThisShitTogether = (parkAreas, parkAttractions, parkAttractionTypes) => {   
+// let smashedData = [];  
+//     parkAreas.forEach(( area ) => {
+//         parkAttractions.forEach(( attraction ) => {
+//             if ( attraction.area_id === area.id ) {
+//                 attraction.area_name = area.name;
+//             }
+//         });
+//     });
+
+//     smashedData = parkAttractions;
+//     return smashedData;
+// };
+
+const smashThisShitTogether = (parkAreas, parkAttractions, parkAttractionTypes) => {   
+let smashedData = [];  
     parkAreas.forEach(( area ) => {
         parkAttractions.forEach(( attraction ) => {
-            if ( attraction.area_id === area.id ) {
+            parkAttractionTypes.forEach((type) => {
+                if ( attraction.area_id === area.id && type.id === attraction.type_id ) {
                 attraction.area_name = area.name;
+                attraction.type_name = type.name;
             }
+            });
         });
     });
+
     smashedData = parkAttractions;
     return smashedData;
 };
 
-  module.exports = {setKey, functioningRides, dataGetter};
+// CURRENT TIME 
+
+
+
+const grabOpenAttractions = (attractions) => {
+    let printArray = [];
+    let format = 'hh:mm a';
+    const currentTime = moment().hour('hour').format('hh:mm a');
+    let endTime = moment().endOf('hour').format('hh:mm a');
+     attractionData.forEach((attraction, i) => {
+     if (attraction.times != null) {
+        attraction.times.forEach((time) => { 
+     if  (moment(time, format).isBetween(moment(currentTime, format), moment(endTime, format))){
+          // (moment('05:50:00 am', format).isBetween(moment('05:30:00 am',format), moment('06:50:00 am',format))){
+     
+        printArray.push(attraction);
+
+        } else {
+
+         // console.log('is not between', attraction.times);
+
+        }
+        });
+     }
+     
+ }); 
+     dom.leftDomString(printArray);
+};
+
+
+  module.exports = {setKey, functioningRides, dataGetter, grabOpenAttractions};
