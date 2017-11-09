@@ -199,7 +199,6 @@ const buildAttractionToSend = ( updatedAttractions ) => {
 };
 
 const updateEachAttraction = ( attraction, fbId ) => {
-    attraction.uid = userUid;
     return new Promise((resolve, reject) => {
         $.ajax({
             method: "PUT",
