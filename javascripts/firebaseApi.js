@@ -13,7 +13,7 @@ const setKey = (key) => {
 };
 
 const updateMaintenance = () => {    
-    let combinedAttractionTicketData = [];
+   
     return new Promise ((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
             if (attractions != null) {
@@ -29,15 +29,18 @@ const updateMaintenance = () => {
                         maintenanceTickets.push(tickets[key]);
                     });
                     let attractionMaintenanceData = [];
+                    let combinedAttractionTicketData = [];
                         attractionData.forEach(( attraction ) => {
                         maintenanceTickets.forEach(( maintenanceDate ) => {
+                            let obj = {};
                             if ( maintenanceDate.attraction_id === attraction.id ) {
-                                attraction.maintenance_date  = maintenanceDate.maintenance_date;
-                                attraction.maintenance_duration_hours = maintenanceDate.maintenance_duration_hours;
-                                combinedAttractionTicketData.push(attraction);
+                                obj.maintenance_date  = maintenanceDate.maintenance_date;
+                                obj.maintenance_duration_hours = maintenanceDate.maintenance_duration_hours;
+                                obj.attraction_id = attraction.id;
+                                combinedAttractionTicketData.push(obj);
                             }
                         });
-                    });                  
+                    });               
                     let brokenAttractions = outOfOrderAttractions(combinedAttractionTicketData);
                     resolve(brokenAttractions);            
                 }
@@ -120,30 +123,23 @@ return new Promise((resolve, reject) => {
 };
 
 const outOfOrderAttractions = (attractions) => {
-    let brokenStuff = [];
-    let currentTime = moment().format('llll');    
+    let brokenStuff = [];    
     let newAttractions = attractions.map((thing) => {
         if (thing.maintenance_date) {
             return thing;
         }        
     });
-    var format = 'ddd-MMM-DD-YYYY-HH:mm:ss';
-    // moment('05:50:00 am', format).isBetween(moment('05:30:00 am',format), moment('06:50:00 am',format));
-    // console.log('currentTime:', currentTime);
-    newAttractions.forEach(( attraction, i ) => {
-        let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').format('llll'); 
-        // console.log('maintenanceStartTime:', maintenanceStartTime);       
+    newAttractions.forEach(( attraction ) => {
+        let currentTime = moment().format('llll');
         let maintenanceDuration = attraction.maintenance_duration_hours;        
-        if ( moment(currentTime, format) > moment(maintenanceStartTime + maintenanceDuration, format) || moment(currentTime, format) < moment(maintenanceStartTime, format) ) {
-            // brokenStuff.push(attraction);   
-            console.log(true);                
-        } else {
-            console.log(false);
+        let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').format('llll'); 
+        let maintenanceEndTime = moment(maintenanceStartTime).add(maintenanceDuration, 'hours').format('llll'); 
+        if ( moment(currentTime).isBetween(maintenanceStartTime, maintenanceEndTime) ) {
+            brokenStuff.push(attraction);     
         }
-    });
-    // console.log('brokenStuff:', brokenStuff);
-    let brokenRides = brokenStuff.filter((item, i, ar) => 
-    { return ar.indexOf(item) === i; });
+    });    
+    let brokenRides = brokenStuff.filter((item, i, ar) => { 
+        return ar.indexOf(item) === i; });
     return brokenRides;
 };
 
@@ -173,7 +169,6 @@ const functioningRides = () => {
 };
 
 const buildEditedAttractions = ( workingAttractions ) => {
-    // console.log('workingAttractions:', workingAttractions);
     let updatedAttractions = workingAttractions.filter(( attraction ) => {
         if ( attraction.out_of_order === true ) {
             return attraction;
@@ -182,7 +177,6 @@ const buildEditedAttractions = ( workingAttractions ) => {
         changeAttr.out_of_order = false;
         return changeAttr;
     });
-    // console.log('updatedAttractions:', updatedAttractions);
     buildAttractionToSend( updatedAttractions );
 };
 
