@@ -12,8 +12,7 @@ const setKey = (key) => {
     firebaseKey = key;
 };
 
-const updateMaintenance = () => {
-    
+const updateMaintenance = () => {    
     let combinedAttractionTicketData = [];
     return new Promise ((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
@@ -32,7 +31,6 @@ const updateMaintenance = () => {
                     let attractionMaintenanceData = [];
                         attractionData.forEach(( attraction ) => {
                         maintenanceTickets.forEach(( maintenanceDate ) => {
-                            // console.log('maintenanceDate', maintenanceDate);
                             if ( maintenanceDate.attraction_id === attraction.id ) {
                                 attraction.maintenance_date  = maintenanceDate.maintenance_date;
                                 attraction.maintenance_duration_hours = maintenanceDate.maintenance_duration_hours;
@@ -123,14 +121,27 @@ return new Promise((resolve, reject) => {
 
 const outOfOrderAttractions = (attractions) => {
     let brokenStuff = [];
-    let currentTime = moment().unix();
-    attractions.forEach(( attraction, i ) => {
-        let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').unix();        
-        let maintenanceDuration = attraction.maintenance_duration_hours;        
-        if ( currentTime > maintenanceStartTime + maintenanceDuration || currentTime < maintenanceStartTime ) {
-            brokenStuff.push(attraction);                   
-        } 
+    let currentTime = moment().format('llll');    
+    let newAttractions = attractions.map((thing) => {
+        if (thing.maintenance_date) {
+            return thing;
+        }        
     });
+    var format = 'ddd-MMM-DD-YYYY-HH:mm:ss';
+    // moment('05:50:00 am', format).isBetween(moment('05:30:00 am',format), moment('06:50:00 am',format));
+    // console.log('currentTime:', currentTime);
+    newAttractions.forEach(( attraction, i ) => {
+        let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').format('llll'); 
+        // console.log('maintenanceStartTime:', maintenanceStartTime);       
+        let maintenanceDuration = attraction.maintenance_duration_hours;        
+        if ( moment(currentTime, format) > moment(maintenanceStartTime + maintenanceDuration, format) || moment(currentTime, format) < moment(maintenanceStartTime, format) ) {
+            // brokenStuff.push(attraction);   
+            console.log(true);                
+        } else {
+            console.log(false);
+        }
+    });
+    // console.log('brokenStuff:', brokenStuff);
     let brokenRides = brokenStuff.filter((item, i, ar) => 
     { return ar.indexOf(item) === i; });
     return brokenRides;
@@ -151,7 +162,7 @@ const functioningRides = () => {
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
             data.setParkInfo(results.parkInfo);
-            updateFirebaseAttractions(attractionData);
+            buildEditedAttractions(attractionData);
             let areasAndAttractions = smashAreasAttractions(results.parkAreas, attractionData);
             data.setSmashedData(areasAndAttractions);
             dom.mainDomString(results.parkAreas, areasAndAttractions);
@@ -161,8 +172,8 @@ const functioningRides = () => {
     });
 };
 
-const updateFirebaseAttractions = ( workingAttractions ) => {
-    console.log('workingAttractions:', workingAttractions);
+const buildEditedAttractions = ( workingAttractions ) => {
+    // console.log('workingAttractions:', workingAttractions);
     let updatedAttractions = workingAttractions.filter(( attraction ) => {
         if ( attraction.out_of_order === true ) {
             return attraction;
@@ -171,15 +182,31 @@ const updateFirebaseAttractions = ( workingAttractions ) => {
         changeAttr.out_of_order = false;
         return changeAttr;
     });
-    console.log('updatedAttractions:', updatedAttractions);
+    // console.log('updatedAttractions:', updatedAttractions);
+    buildAttractionToSend( updatedAttractions );
 };
 
-const updateEachAttraction = (attraction) => {
+const buildAttractionToSend = ( updatedAttractions ) => {
+    updatedAttractions.forEach(( attraction ) => {
+        let fbId = attraction.fbId;
+        let newAttra = {
+            out_of_order: attraction.out_of_order,
+            area_id: attraction.area_id,
+            description: attraction.description,
+            id: attraction.id,
+            name: attraction.name,
+            type_id: attraction.type_id,
+        };
+        updateEachAttraction( newAttra, fbId );
+    });
+};
+
+const updateEachAttraction = ( attraction, fbId ) => {
     attraction.uid = userUid;
     return new Promise((resolve, reject) => {
         $.ajax({
             method: "PUT",
-            url: `${firebaseKey.databaseURL}/attractions/${attraction.fbId}.json`,
+            url: `${firebaseKey.databaseURL}/attractions/${fbId}.json`,
             data: JSON.stringify(attraction)
         }).then((result) => {
             resolve(result);
