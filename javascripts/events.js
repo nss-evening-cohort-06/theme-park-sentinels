@@ -38,6 +38,17 @@ const displayAttractions = () => {
 };
 
 
+// CLICK EVENT FOR TIME PICKER
+
+
+    $('#time').on('change', function (event) {
+    let timeValue = $('#time').val();
+        console.log("value", timeValue);
+        
+    });
+
+
+
 // INITIALIZE EVENTS IN MAIN.JS
 
 const init = () => {
