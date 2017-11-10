@@ -37,7 +37,13 @@ const updateMaintenance = () => {
                             if ( maintenanceDate.attraction_id === attraction.id ) {
                                 obj.maintenance_date  = maintenanceDate.maintenance_date;
                                 obj.maintenance_duration_hours = maintenanceDate.maintenance_duration_hours;
-                                obj.attraction_id = attraction.id;
+                                obj.id = attraction.id;
+                                obj.area_id = attraction.area_id;
+                                obj.description = attraction.description;
+                                obj.fbId = attraction.fbId;
+                                obj.name = attraction.name;
+                                obj.type_id = attraction.type_id;
+                                obj.out_of_order = attraction.out_of_order;
                                 combinedAttractionTicketData.push(obj);
                             }
                         });
@@ -125,6 +131,7 @@ return new Promise((resolve, reject) => {
 
 const outOfOrderAttractions = (attractions) => {
     let brokenStuff = [];    
+    let workingStuff = [];    
     let newAttractions = attractions.map((thing) => {
         if (thing.maintenance_date) {
             return thing;
@@ -136,12 +143,18 @@ const outOfOrderAttractions = (attractions) => {
         let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').format('llll'); 
         let maintenanceEndTime = moment(maintenanceStartTime).add(maintenanceDuration, 'hours').format('llll'); 
         if ( moment(currentTime).isBetween(maintenanceStartTime, maintenanceEndTime) ) {
+            attraction.out_of_order = true;
             brokenStuff.push(attraction);     
+        } else {
+            attraction.out_of_order = false; 
+            workingStuff.push(attraction);     
         }
-    });    
-    let brokenRides = brokenStuff.filter((item, i, ar) => { 
+        buildAttractionToSend(workingStuff);
+    });
+    buildAttractionToSend(brokenStuff);    
+    let workingRides = workingStuff.filter((item, i, ar) => { 
         return ar.indexOf(item) === i; });
-    return brokenRides;
+    return workingRides;
 };
 
 const functioningRides = () => {
@@ -159,7 +172,7 @@ const functioningRides = () => {
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
             data.setParkInfo(results.parkInfo);
-            buildEditedAttractions(attractionData);
+            // buildEditedAttractions(attractionData);
             let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData, results.parkAttractionTypes);
             data.setSmashedData(areasAndAttractions);
             grabOpenAttractions(areasAndAttractions);
@@ -171,17 +184,17 @@ const functioningRides = () => {
     });
 };
 
-const buildEditedAttractions = ( workingAttractions ) => {
-    let updatedAttractions = workingAttractions.filter(( attraction ) => {
-        if ( attraction.out_of_order === true ) {
-            return attraction;
-        }
-    }).map(( changeAttr ) => {
-        changeAttr.out_of_order = false;
-        return changeAttr;
-    });
-    buildAttractionToSend( updatedAttractions );
-};
+// const buildEditedAttractions = ( workingAttractions ) => {
+//     let updatedAttractions = workingAttractions.filter(( attraction ) => {
+//         if ( attraction.out_of_order === true ) {
+//             return attraction;
+//         }
+//     }).map(( changeAttr ) => {
+//         changeAttr.out_of_order = false;
+//         return changeAttr;
+//     });
+//     // buildAttractionToSend( updatedAttractions );
+// };
 
 const buildAttractionToSend = ( updatedAttractions ) => {
     updatedAttractions.forEach(( attraction ) => {
