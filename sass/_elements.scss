@@ -89,13 +89,31 @@ body {
 .hi {
 	border: $grid-border;
   color: white;
-  height: 24.6vw;
+  height: 17vw;
   opacity: .8;
   width: 24.6vw;
 }
 
+.hi:hover {
+  transform: translateY(-3px);
+  -webkit-transform: translateY(-3px);
+  -moz-transform: translateY(-3px);
+   cursor: pointer;
+}
+
+
 h3 {
   text-align: center;
+  font-size: 2.2em;
+  margin-top: 87px;
+}
+
+#lft-btm {
+    border-bottom-left-radius: 10px;
+}
+
+#area-7 {
+    border-bottom-right-radius: 10px;
 }
 
 #Entrance {
@@ -105,6 +123,16 @@ h3 {
 #main-grid {
   padding-bottom: 70px;
 }
+
+#area-1 {
+  border-top-left-radius: 10px;
+}
+
+#area-3 {
+  border-top-right-radius: 10px;
+ }
+
+
 
 
 

@@ -9,7 +9,7 @@ const mainDomString = ( parkAreas, areasAndAttractions ) => {
         if (i % 3 === 0) {
             str += `<div class="row top-buffer">`;
         } if ( i === 6 ) {
-            str += `<div class='empty hi col-xs-4'></div>`;
+            str += `<div class='empty hi col-xs-4' id="lft-btm"></div>`;
             str += `<div id='Entrance' class='empty hi col-xs-4'><h3>Entrance</h3></div>`;
         }
         str += `<div id='area-${area.id}' class='hi col-xs-4'><h3>${area.name}</h3>`;
