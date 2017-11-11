@@ -28,9 +28,10 @@ const mainDomString = ( parkAreas, areasAndAttractions ) => {
 
 const leftDomString = ( attractions) => {
     let i = 0;
-    let runTimes = ``;
     let printStrang = `<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">`;
     attractions.forEach((attraction) => {
+        if (attraction.out_of_order === true) {
+        } 
         printStrang +=  `<div class="panel panel-default">`;
         printStrang +=      `<div class="panel-heading" role="tab" id="heading${i}">`;
         printStrang +=          `<h4 class="panel-title">`;
@@ -41,7 +42,8 @@ const leftDomString = ( attractions) => {
         printStrang +=          `<div class="panel-body">`;
         printStrang +=              `<p>${attraction.description}</p>`;
         if (attraction.times != null) {
-        attraction.times.forEach((time) => {
+            let runTimes = ``;
+            attraction.times.forEach((time) => {            
             runTimes += `<li>${time}</li>`;   
         });  
         printStrang +=          `<p>Hours of Operation:</p>`;  

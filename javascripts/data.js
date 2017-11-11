@@ -47,7 +47,12 @@ const setParkAreas = (areas) => {
 };
 
 const setSmashedData = (data) => {
-    smashedData = data;
+    data = data.map((attraction) => {
+        if (attraction.out_of_order != true) {
+            smashedData.push(attraction);
+        }
+        return data;
+    });
 };
 
 const setParkAttractions = (attractions) => {
