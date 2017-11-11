@@ -271,7 +271,7 @@ const grabOpenAttractions = (attractions) => {
 };
 
 
-// CLICK EVENT FOR TIME PICKER
+// GRABS SELECTED TIME VALUE AND PRINTS ATTRACTIONS HAPPENING AT THAT TIME TO LEFT DOMSTRING
 
 
     $('#time').on('change', function (event) {
@@ -281,10 +281,10 @@ const grabOpenAttractions = (attractions) => {
     attractionData.forEach((attraction, i) => {
        if(attraction.times != null) {
         attraction.times.forEach((time) => { 
+            let endTime = moment().endOf('hour').format('hh:mm a');
             let attractionHour = moment(attraction.times).hour();
             let startOfSelectedHour = moment(timeValue, format).hour('hour');
             if (moment(time, format).isSame(moment(startOfSelectedHour, format))){
-                console.log("OH BABY");
                 selectedTimeArray.push(attraction);
             }
         });

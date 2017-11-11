@@ -63,6 +63,7 @@ const leftDomString = ( attractions) => {
 };
 
 
+
 const printToDom = ( str, divName ) => {
     $(`#${divName}`).html(str);
 };
