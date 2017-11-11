@@ -150,7 +150,7 @@ const outOfOrderAttractions = (attractions) => {
             brokenStuff.push(attraction);     
         } else {
             attraction.out_of_order = false; 
-            workingStuff.push(attraction);        
+            workingStuff.push(attraction);       
             workingStuffGlobal.push(attraction);     
         }        
     });
@@ -180,7 +180,6 @@ const functioningRides = () => {
         console.log("error in functioning rides", error);
     });
 };
-
 
 const buildAttractionToSend = ( updatedAttractions ) => {
     updatedAttractions.forEach(( attraction ) => {
