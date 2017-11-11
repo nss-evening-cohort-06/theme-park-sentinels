@@ -13,9 +13,8 @@ const setKey = (key) => {
     firebaseKey = key;
 };
 
-const updateMaintenance = () => {
-    
-    let combinedAttractionTicketData = [];
+const updateMaintenance = () => {    
+   
     return new Promise ((resolve, reject) => {
         $.ajax(`${firebaseKey.databaseURL}/attractions.json`).then((attractions) => {
             if (attractions != null) {
@@ -31,17 +30,26 @@ const updateMaintenance = () => {
                         maintenanceTickets.push(tickets[key]);
                     });
                     let attractionMaintenanceData = [];
+                    let combinedAttractionTicketData = [];
                         attractionData.forEach(( attraction ) => {
                         maintenanceTickets.forEach(( maintenanceDate ) => {
+                            let obj = {};
                             if ( maintenanceDate.attraction_id === attraction.id ) {
-                                attraction.maintenance_date  = maintenanceDate.maintenance_date;
-                                attraction.maintenance_duration_hours = maintenanceDate.maintenance_duration;
-                                combinedAttractionTicketData.push(attraction);
+                                obj.maintenance_date  = maintenanceDate.maintenance_date;
+                                obj.maintenance_duration_hours = maintenanceDate.maintenance_duration_hours;
+                                obj.id = attraction.id;
+                                obj.area_id = attraction.area_id;
+                                obj.description = attraction.description;
+                                obj.fbId = attraction.fbId;
+                                obj.name = attraction.name;
+                                obj.type_id = attraction.type_id;
+                                obj.out_of_order = attraction.out_of_order;
+                                combinedAttractionTicketData.push(obj);
                             }
                         });
-                    });                  
-                    let brokenAttractions = outOfOrderAttractions(combinedAttractionTicketData);
-                    resolve(brokenAttractions);            
+                    });               
+                    let workingRides = outOfOrderAttractions(combinedAttractionTicketData);
+                    resolve(workingRides);            
                 }
             }).catch((error) => {
                 reject(error);
@@ -121,36 +129,56 @@ return new Promise((resolve, reject) => {
     });
 };
 
+let workingStuffGlobal = [];
+let brokenStuff = [];     
+
 const outOfOrderAttractions = (attractions) => {
-    let brokenStuff = [];
-    let currentTime = moment().unix();
-    attractions.forEach(( attraction, i ) => {
-        let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').unix();        
-        let maintenanceDuration = attraction.maintenance_duration_hours;        
-        if ( currentTime > maintenanceStartTime + maintenanceDuration || currentTime < maintenanceStartTime ) {
-            brokenStuff.push(attraction);                   
-        } 
+
+    let workingStuff = [];    
+    let newAttractions = attractions.map((thing) => {
+        if (thing.maintenance_date) {
+            return thing;
+        }        
     });
-    let brokenRides = brokenStuff.filter((item, i, ar) => 
-    { return ar.indexOf(item) === i; });
-    return brokenRides;
+    newAttractions.forEach(( attraction ) => {
+        let currentTime = moment().format('llll');
+        let maintenanceDuration = attraction.maintenance_duration_hours;        
+        let maintenanceStartTime = moment(attraction.maintenance_date.slice(0, 24), 'ddd-MMM-DD-YYYY-HH:mm:ss').format('llll'); 
+        let maintenanceEndTime = moment(maintenanceStartTime).add(maintenanceDuration, 'hours').format('llll'); 
+        if ( moment(currentTime).isBetween(maintenanceStartTime, maintenanceEndTime) ) {
+            attraction.out_of_order = true;
+            brokenStuff.push(attraction);     
+        } else {
+            attraction.out_of_order = false; 
+            workingStuff.push(attraction);     
+            // brokenStuff.push(attraction);     
+            workingStuffGlobal.push(attraction);     
+        }        
+    });
+    buildAttractionToSend(workingStuffGlobal); 
+
+    let workingRides = workingStuff.filter((item, i, ar) => { 
+        return ar.indexOf(item) === i; });
+    return workingRides;
 };
 
-const functioningRides = () => {
+const functioningRides = () => {          
     let workingRides = [];
     updateMaintenance().then((results) => {
-        attractionData.forEach((attraction) => {
-            results.forEach((result, i) => {
-                if (result.id === attraction.id) {
-                    attractionData.splice(i, 1);
-                }
-            });
-        });
+        // attractionData.forEach((attraction) => {
+        //     results.forEach((result, i) => {
+        //         if (result.id === attraction.id) {
+        //             attractionData.splice(i, 1);
+        //         }
+        //     });
+        // });
         dataGetter().then((results) => {
             data.setParkAreas(results.parkAreas);
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
-            data.setParkInfo(results.parkInfo);
+            data.setParkInfo(results.parkInfo);   
+            buildAttractionToSend(brokenStuff);         
+            // buildEditedAttractions(attractionData);
             let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData, results.parkAttractionTypes);
             data.setSmashedData(areasAndAttractions);
             grabOpenAttractions(areasAndAttractions);
@@ -162,21 +190,62 @@ const functioningRides = () => {
     });
 };
 
+// const buildEditedAttractions = ( workingAttractions ) => {
+//     let updatedAttractions = workingAttractions.filter(( attraction ) => {
+//         if ( attraction.out_of_order === true ) {
+//             return attraction;
+//         }
+//     }).map(( changeAttr ) => {
+//         changeAttr.out_of_order = false;
+//         return changeAttr;
+//     });
+//     // buildAttractionToSend( updatedAttractions );
+// };
+
+const buildAttractionToSend = ( updatedAttractions ) => {
+    updatedAttractions.forEach(( attraction ) => {
+        let fbId = attraction.fbId;
+        let newAttra = {
+            out_of_order: attraction.out_of_order,
+            area_id: attraction.area_id,
+            description: attraction.description,
+            id: attraction.id,
+            name: attraction.name,
+            type_id: attraction.type_id,
+        };
+        updateEachAttraction( newAttra, fbId );
+    });
+};
+
+const updateEachAttraction = ( attraction, fbId ) => {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            method: "PUT",
+            url: `${firebaseKey.databaseURL}/attractions/${fbId}.json`,
+            data: JSON.stringify(attraction)
+        }).then((result) => {
+            resolve(result);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
+};
+
 // COMBINE AREAS INTO ATTRACTIONS DATA
 
+
 const smashThisShitTogether = (parkAreas, parkAttractions, parkAttractionTypes) => {   
-let smashedData = [];  
-    parkAreas.forEach(( area ) => {
-        parkAttractions.forEach(( attraction ) => {
-            parkAttractionTypes.forEach((type) => {
-                if ( attraction.area_id === area.id && type.id === attraction.type_id ) {
-                attraction.area_name = area.name;
-                attraction.type_name = type.name;
-            }
+    let smashedData = [];  
+        parkAreas.forEach(( area ) => {
+            parkAttractions.forEach(( attraction ) => {
+                parkAttractionTypes.forEach((type) => {
+                    if ( attraction.area_id === area.id && type.id === attraction.type_id ) {
+                    attraction.area_name = area.name;
+                    attraction.type_name = type.name;
+                }
             });
         });
     });
-
     smashedData = parkAttractions;
     return smashedData;
 };
@@ -201,5 +270,27 @@ const grabOpenAttractions = (attractions) => {
      dom.leftDomString(printArray);
 };
 
+
+// CLICK EVENT FOR TIME PICKER
+
+
+    $('#time').on('change', function (event) {
+    let selectedTimeArray = [];
+    let timeValue = $('#time').val();
+    let format = 'hh:mm a';
+    attractionData.forEach((attraction, i) => {
+       if(attraction.times != null) {
+        attraction.times.forEach((time) => { 
+            let attractionHour = moment(attraction.times).hour();
+            let startOfSelectedHour = moment(timeValue, format).hour('hour');
+            if (moment(time, format).isSame(moment(startOfSelectedHour, format))){
+                console.log("OH BABY");
+                selectedTimeArray.push(attraction);
+            }
+        });
+       }
+    });
+    dom.leftDomString(selectedTimeArray);
+});
 
   module.exports = {setKey, functioningRides, dataGetter, grabOpenAttractions};

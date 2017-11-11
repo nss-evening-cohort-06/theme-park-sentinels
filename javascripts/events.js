@@ -39,20 +39,7 @@ const displayAttractions = () => {
 };
 
 
-// CLICK EVENT FOR TIME PICKER
 
-
-    $('#time').on('change', function (event) {
-    let timeValue = $('#time').val();
-    const currentTime = moment().hour('hour').format('hh:mm a');
-    let format = 'hh:mm a';
-        console.log("value", timeValue);
-
-        console.log(data.attractionData);
-
-    
-
-});
         
 
 
