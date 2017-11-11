@@ -9,7 +9,7 @@ const mainDomString = ( parkAreas, areasAndAttractions ) => {
         if (i % 3 === 0) {
             str += `<div class="row top-buffer">`;
         } if ( i === 6 ) {
-            str += `<div class='empty hi col-xs-4'></div>`;
+            str += `<div class='empty hi col-xs-4' id="lft-btm"></div>`;
             str += `<div id='Entrance' class='empty hi col-xs-4'><h3>Entrance</h3></div>`;
         }
         str += `<div id='area-${area.id}' class='hi col-xs-4'><h3>${area.name}</h3>`;
@@ -33,7 +33,7 @@ const leftDomString = ( attractions) => {
         if (attraction.out_of_order === true) {
         } 
         printStrang +=  `<div class="panel panel-default">`;
-        printStrang +=      `<div class="panel-heading" role="tab" id="heading${i}">`;
+        printStrang +=      `<div class="panel-heading" id="sideTab" role="tab" id="heading${i}">`;
         printStrang +=          `<h4 class="panel-title">`;
         printStrang +=             `<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">${attraction.name} (${attraction.type_name})</a>`;
         printStrang +=          `</h4>`;
@@ -61,6 +61,7 @@ const leftDomString = ( attractions) => {
     printToDom(printStrang, 'attractions-div');
     $('#attractions-div').removeClass('hide');
 };
+
 
 
 const printToDom = ( str, divName ) => {

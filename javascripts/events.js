@@ -1,6 +1,7 @@
 'use strict';
 const firebaseApi = require('./firebaseApi');
 const data = require('./data');
+const moment = require('../lib/node_modules/moment/moment.js');
 
 let searchBar = $('#inputHolder');
 let submitBtn = $('#submitBtn');
@@ -36,6 +37,10 @@ const displayAttractions = () => {
         }
     });
 };
+
+
+
+        
 
 
 // INITIALIZE EVENTS IN MAIN.JS

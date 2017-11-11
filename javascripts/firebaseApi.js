@@ -271,4 +271,26 @@ const grabOpenAttractions = (attractions) => {
 };
 
 
+// GRABS SELECTED TIME VALUE AND PRINTS ATTRACTIONS HAPPENING AT THAT TIME TO LEFT DOMSTRING
+
+
+    $('#time').on('change', function (event) {
+    let selectedTimeArray = [];
+    let timeValue = $('#time').val();
+    let format = 'hh:mm a';
+    attractionData.forEach((attraction, i) => {
+       if(attraction.times != null) {
+        attraction.times.forEach((time) => { 
+            let endTime = moment().endOf('hour').format('hh:mm a');
+            let attractionHour = moment(attraction.times).hour();
+            let startOfSelectedHour = moment(timeValue, format).hour('hour');
+            if (moment(time, format).isSame(moment(startOfSelectedHour, format))){
+                selectedTimeArray.push(attraction);
+            }
+        });
+       }
+    });
+    dom.leftDomString(selectedTimeArray);
+});
+
   module.exports = {setKey, functioningRides, dataGetter, grabOpenAttractions};

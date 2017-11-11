@@ -1,16 +1,22 @@
 @import 'colors';
 @import 'variables';
 
-/* MAIN NAV */
-
+/******* MAIN NAV *******/
 
 #theWholeNav {
   background-color: white;
 
+
      .navbar-form {
 	       margin-left: 19%;
+
+         
+         }
   }
-}
+#magic-kingdom {
+            color: slateblue;
+            font-size: 1.5em;
+         }
 
 .dropdown-menu {
   height: 164px;
@@ -19,14 +25,16 @@
 
 
 
-/* SEARCH INPUT */
+/******* SEARCH INPUT *******/
+
 #inputHolder {
 	    width: 327px;
 }
 
 
 
-/* SIDEBAR */
+/******* SIDEBAR *******/
+
 @media (min-width: 768px) {
   .sidebar-nav .navbar .navbar-collapse {
     padding: 0;
@@ -52,69 +60,128 @@
   margin-bottom: 200px;
 }
 
+
 body {
   padding-bottom: 70px;
 }
 
-/* GRID */
+#parkInfoTab {
+  background-color: $violet;
+  font-size: 1.2em;
+}
+
+#attractionInfoTab {
+  font-size: 1.2em;
+}
+
+#sideTab {
+  background-color: transparent;
+}
+
+#background-side {
+  background-color: transparent;
+}
+
+
+
+/******* GRID *******/
 
 .hi {
-	border: 1px solid black;
-  width: 24.6vw;
-  height: 24.6vw;
+	border: $grid-border;
   color: white;
+  height: 17vw;
   opacity: .8;
+  width: 24.6vw;
 }
+
+
+.hi:hover {
+  transform: translateY(-3px);
+  -webkit-transform: translateY(-3px);
+  -moz-transform: translateY(-3px);
+   cursor: pointer;
+   -webkit-animation: 0.5s draw linear forwards;
+  animation: 0.5s draw linear forwards;
+}
+
 h3 {
   text-align: center;
+  font-size: 2.2em;
+  margin-top: 87px;
+}
+
+#lft-btm {
+    border-bottom-left-radius: 10px;
+}
+
+#area-7 {
+    border-bottom-right-radius: 10px;
 }
 
 #Entrance {
-  color: #2594D9;
+  color: $babyblue;
 }
 
 #main-grid {
   padding-bottom: 70px;
 }
 
-/* FOOTER */
+#area-1 {
+  border-top-left-radius: 10px;
+}
+
+#area-3 {
+  border-top-right-radius: 10px;
+ }
+
+
+
+
+
+/******* FOOTER *******/
+
 footer ul li {
 	list-style: none;
 }
+
 #footer {
-  position: fixed;
-  right: 0;
+  background-color: $footer-background-color;
   bottom: 0;
+  height: 40px; 
   left: 0;
   padding: 1rem;
-  height: 40px;
-  background-color: $footer-background-color;
+  position: fixed;
+  right: 0;
   text-align: center;
 }
 
-/* HIGHLIGHT BORDER */
+
+
+/******* HIGHLIGHT BORDER *******/
 .border-highlight {
   border: $border-highlight;
 }
 
-/* TIME ELEMENT */
+
+
+/******* TIME ELEMENT *******/
 
 .this-b-cray {
   height: 20px;
 }
 
 #time-container {
-  height: 76px;
-  width: 420px;
-  margin-top: -32px;
   background-color: transparent;
   border-style: none;
-}
+  height: 76px;
+  margin-top: -32px;
+  width: 420px;
 
-#time-input {
-  width: 204px;
-}
 
+    #time {
+       width: 164%;
+  }
+}
 
 
 
