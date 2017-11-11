@@ -33,7 +33,7 @@ const leftDomString = ( attractions) => {
         if (attraction.out_of_order === true) {
         } 
         printStrang +=  `<div class="panel panel-default">`;
-        printStrang +=      `<div class="panel-heading" role="tab" id="heading${i}">`;
+        printStrang +=      `<div class="panel-heading" id="sideTab" role="tab" id="heading${i}">`;
         printStrang +=          `<h4 class="panel-title">`;
         printStrang +=             `<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">${attraction.name} (${attraction.type_name})</a>`;
         printStrang +=          `</h4>`;

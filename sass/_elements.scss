@@ -6,10 +6,17 @@
 #theWholeNav {
   background-color: white;
 
+
      .navbar-form {
 	       margin-left: 19%;
+
+         
+         }
   }
-}
+#magic-kingdom {
+            color: slateblue;
+            font-size: 1.5em;
+         }
 
 .dropdown-menu {
   height: 164px;
@@ -53,8 +60,26 @@
   margin-bottom: 200px;
 }
 
+
 body {
   padding-bottom: 70px;
+}
+
+#parkInfoTab {
+  background-color: $violet;
+  font-size: 1.2em;
+}
+
+#attractionInfoTab {
+  font-size: 1.2em;
+}
+
+#sideTab {
+  background-color: transparent;
+}
+
+#background-side {
+  background-color: transparent;
 }
 
 
