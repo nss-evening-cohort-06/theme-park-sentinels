@@ -32,6 +32,9 @@ const searchBarKeypress = () => {
 const displayAttractions = () => {
     $('body').click((e) => {
         if (e.target.id.includes('area')) {
+            $(area).find('h3').addClass('animated jello').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
+                $(area).find('h3').removeClass('animated jello');
+            });
             let areaData = parseInt(e.target.id.split('-').pop());
             data.attractionData(areaData);
         }
