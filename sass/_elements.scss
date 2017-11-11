@@ -94,13 +94,15 @@ body {
   width: 24.6vw;
 }
 
+
 .hi:hover {
   transform: translateY(-3px);
   -webkit-transform: translateY(-3px);
   -moz-transform: translateY(-3px);
    cursor: pointer;
+   -webkit-animation: 0.5s draw linear forwards;
+  animation: 0.5s draw linear forwards;
 }
-
 
 h3 {
   text-align: center;
