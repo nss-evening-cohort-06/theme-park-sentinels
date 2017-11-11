@@ -150,8 +150,7 @@ const outOfOrderAttractions = (attractions) => {
             brokenStuff.push(attraction);     
         } else {
             attraction.out_of_order = false; 
-            workingStuff.push(attraction);     
-            // brokenStuff.push(attraction);     
+            workingStuff.push(attraction);        
             workingStuffGlobal.push(attraction);     
         }        
     });
@@ -165,20 +164,12 @@ const outOfOrderAttractions = (attractions) => {
 const functioningRides = () => {          
     let workingRides = [];
     updateMaintenance().then((results) => {
-        // attractionData.forEach((attraction) => {
-        //     results.forEach((result, i) => {
-        //         if (result.id === attraction.id) {
-        //             attractionData.splice(i, 1);
-        //         }
-        //     });
-        // });
         dataGetter().then((results) => {
             data.setParkAreas(results.parkAreas);
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
             data.setParkInfo(results.parkInfo);   
             buildAttractionToSend(brokenStuff);         
-            // buildEditedAttractions(attractionData);
             let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData, results.parkAttractionTypes);
             data.setSmashedData(areasAndAttractions);
             grabOpenAttractions(areasAndAttractions);
@@ -190,17 +181,6 @@ const functioningRides = () => {
     });
 };
 
-// const buildEditedAttractions = ( workingAttractions ) => {
-//     let updatedAttractions = workingAttractions.filter(( attraction ) => {
-//         if ( attraction.out_of_order === true ) {
-//             return attraction;
-//         }
-//     }).map(( changeAttr ) => {
-//         changeAttr.out_of_order = false;
-//         return changeAttr;
-//     });
-//     // buildAttractionToSend( updatedAttractions );
-// };
 
 const buildAttractionToSend = ( updatedAttractions ) => {
     updatedAttractions.forEach(( attraction ) => {
