@@ -48,8 +48,8 @@ const updateMaintenance = () => {
                             }
                         });
                     });               
-                    let brokenAttractions = outOfOrderAttractions(combinedAttractionTicketData);
-                    resolve(brokenAttractions);            
+                    let workingRides = outOfOrderAttractions(combinedAttractionTicketData);
+                    resolve(workingRides);            
                 }
             }).catch((error) => {
                 reject(error);
@@ -129,6 +129,8 @@ return new Promise((resolve, reject) => {
     });
 };
 
+let workingStuffGlobal = []; 
+
 const outOfOrderAttractions = (attractions) => {
     let brokenStuff = [];    
     let workingStuff = [];    
@@ -148,30 +150,31 @@ const outOfOrderAttractions = (attractions) => {
         } else {
             attraction.out_of_order = false; 
             workingStuff.push(attraction);     
-        }
-        buildAttractionToSend(workingStuff);
+            workingStuffGlobal.push(attraction);     
+        }        
     });
-    buildAttractionToSend(brokenStuff);    
+    buildAttractionToSend(workingStuffGlobal); 
+    buildAttractionToSend(brokenStuff);     
     let workingRides = workingStuff.filter((item, i, ar) => { 
         return ar.indexOf(item) === i; });
     return workingRides;
 };
 
-const functioningRides = () => {
+const functioningRides = () => {          
     let workingRides = [];
     updateMaintenance().then((results) => {
-        attractionData.forEach((attraction) => {
-            results.forEach((result, i) => {
-                if (result.id === attraction.id) {
-                    attractionData.splice(i, 1);
-                }
-            });
-        });
+        // attractionData.forEach((attraction) => {
+        //     results.forEach((result, i) => {
+        //         if (result.id === attraction.id) {
+        //             attractionData.splice(i, 1);
+        //         }
+        //     });
+        // });
         dataGetter().then((results) => {
             data.setParkAreas(results.parkAreas);
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
-            data.setParkInfo(results.parkInfo);
+            data.setParkInfo(results.parkInfo);            
             // buildEditedAttractions(attractionData);
             let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData, results.parkAttractionTypes);
             data.setSmashedData(areasAndAttractions);
