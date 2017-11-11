@@ -274,3 +274,7 @@ const grabOpenAttractions = (attractions) => {
 });
 
   module.exports = {setKey, functioningRides, dataGetter, grabOpenAttractions};
+
+
+
+
