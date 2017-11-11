@@ -1,8 +1,7 @@
 @import 'colors';
 @import 'variables';
 
-/* MAIN NAV */
-
+/******* MAIN NAV *******/
 
 #theWholeNav {
   background-color: white;
@@ -19,14 +18,16 @@
 
 
 
-/* SEARCH INPUT */
+/******* SEARCH INPUT *******/
+
 #inputHolder {
 	    width: 327px;
 }
 
 
 
-/* SIDEBAR */
+/******* SIDEBAR *******/
+
 @media (min-width: 768px) {
   .sidebar-nav .navbar .navbar-collapse {
     padding: 0;
@@ -56,65 +57,75 @@ body {
   padding-bottom: 70px;
 }
 
-/* GRID */
+
+
+/******* GRID *******/
 
 .hi {
-	border: 1px solid black;
-  width: 24.6vw;
-  height: 24.6vw;
+	border: $grid-border;
   color: white;
+  height: 24.6vw;
   opacity: .8;
+  width: 24.6vw;
 }
+
 h3 {
   text-align: center;
 }
 
 #Entrance {
-  color: #2594D9;
+  color: $babyblue;
 }
 
 #main-grid {
   padding-bottom: 70px;
 }
 
-/* FOOTER */
+
+
+/******* FOOTER *******/
+
 footer ul li {
 	list-style: none;
 }
+
 #footer {
-  position: fixed;
-  right: 0;
+  background-color: $footer-background-color;
   bottom: 0;
+  height: 40px; 
   left: 0;
   padding: 1rem;
-  height: 40px;
-  background-color: $footer-background-color;
+  position: fixed;
+  right: 0;
   text-align: center;
 }
 
-/* HIGHLIGHT BORDER */
+
+
+/******* HIGHLIGHT BORDER *******/
 .border-highlight {
   border: $border-highlight;
 }
 
-/* TIME ELEMENT */
+
+
+/******* TIME ELEMENT *******/
 
 .this-b-cray {
   height: 20px;
 }
 
 #time-container {
-  height: 76px;
-  width: 420px;
-  margin-top: -32px;
   background-color: transparent;
   border-style: none;
-}
+  height: 76px;
+  margin-top: -32px;
+  width: 420px;
 
 
-
-#time {
-  width: 164%;
+    #time {
+       width: 164%;
+  }
 }
 
 
