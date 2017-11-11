@@ -18,7 +18,7 @@
       this.$element = $(element);
 
 
-      this.params = {date: false, time: true, format: 'HH:mm', minDate: null, maxDate: null, currentDate: null, lang: 'en', weekStart: 0, disabledDays: [], shortTime: false, clearButton: false, nowButton: false, cancelText: 'Cancel', okText: 'OK', clearText: 'Clear', nowText: 'Now', switchOnClick: false, triggerEvent: 'focus', monthPicker: false, year:true};
+      this.params = {date: false, time: true, format: 'hh:mm a', minDate: null, maxDate: null, currentDate: null, lang: 'en', weekStart: 0, disabledDays: [], shortTime: false, clearButton: false, nowButton: false, cancelText: 'Cancel', okText: 'OK', clearText: 'Clear', nowText: 'Now', switchOnClick: false, triggerEvent: 'focus', monthPicker: false, year:true};
       this.params = $.fn.extend(this.params, options);
 
       this.name = "dtp_" + this.setName();
