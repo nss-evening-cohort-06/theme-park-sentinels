@@ -150,8 +150,7 @@ const outOfOrderAttractions = (attractions) => {
             brokenStuff.push(attraction);     
         } else {
             attraction.out_of_order = false; 
-            workingStuff.push(attraction);     
-            // brokenStuff.push(attraction);     
+            workingStuff.push(attraction);       
             workingStuffGlobal.push(attraction);     
         }        
     });
@@ -165,20 +164,12 @@ const outOfOrderAttractions = (attractions) => {
 const functioningRides = () => {          
     let workingRides = [];
     updateMaintenance().then((results) => {
-        // attractionData.forEach((attraction) => {
-        //     results.forEach((result, i) => {
-        //         if (result.id === attraction.id) {
-        //             attractionData.splice(i, 1);
-        //         }
-        //     });
-        // });
         dataGetter().then((results) => {
             data.setParkAreas(results.parkAreas);
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
             data.setParkInfo(results.parkInfo);   
             buildAttractionToSend(brokenStuff);         
-            // buildEditedAttractions(attractionData);
             let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData, results.parkAttractionTypes);
             data.setSmashedData(areasAndAttractions);
             grabOpenAttractions(areasAndAttractions);
@@ -189,18 +180,6 @@ const functioningRides = () => {
         console.log("error in functioning rides", error);
     });
 };
-
-// const buildEditedAttractions = ( workingAttractions ) => {
-//     let updatedAttractions = workingAttractions.filter(( attraction ) => {
-//         if ( attraction.out_of_order === true ) {
-//             return attraction;
-//         }
-//     }).map(( changeAttr ) => {
-//         changeAttr.out_of_order = false;
-//         return changeAttr;
-//     });
-//     // buildAttractionToSend( updatedAttractions );
-// };
 
 const buildAttractionToSend = ( updatedAttractions ) => {
     updatedAttractions.forEach(( attraction ) => {
@@ -271,4 +250,30 @@ const grabOpenAttractions = (attractions) => {
 };
 
 
+// GRABS SELECTED TIME VALUE AND PRINTS ATTRACTIONS HAPPENING AT THAT TIME TO LEFT DOMSTRING
+
+
+    $('#time').on('change', function (event) {
+    let selectedTimeArray = [];
+    let timeValue = $('#time').val();
+    let format = 'hh:mm a';
+    attractionData.forEach((attraction, i) => {
+       if(attraction.times != null) {
+        attraction.times.forEach((time) => { 
+            let endTime = moment().endOf('hour').format('hh:mm a');
+            let attractionHour = moment(attraction.times).hour();
+            let startOfSelectedHour = moment(timeValue, format).hour('hour');
+            if (moment(time, format).isSame(moment(startOfSelectedHour, format))){
+                selectedTimeArray.push(attraction);
+            }
+        });
+       }
+    });
+    dom.leftDomString(selectedTimeArray);
+});
+
   module.exports = {setKey, functioningRides, dataGetter, grabOpenAttractions};
+
+
+
+
