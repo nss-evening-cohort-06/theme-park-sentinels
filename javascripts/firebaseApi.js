@@ -129,10 +129,11 @@ return new Promise((resolve, reject) => {
     });
 };
 
-let workingStuffGlobal = []; 
+let workingStuffGlobal = [];
+let brokenStuff = [];     
 
 const outOfOrderAttractions = (attractions) => {
-    let brokenStuff = [];    
+
     let workingStuff = [];    
     let newAttractions = attractions.map((thing) => {
         if (thing.maintenance_date) {
@@ -150,11 +151,12 @@ const outOfOrderAttractions = (attractions) => {
         } else {
             attraction.out_of_order = false; 
             workingStuff.push(attraction);     
+            // brokenStuff.push(attraction);     
             workingStuffGlobal.push(attraction);     
         }        
     });
     buildAttractionToSend(workingStuffGlobal); 
-    buildAttractionToSend(brokenStuff);     
+
     let workingRides = workingStuff.filter((item, i, ar) => { 
         return ar.indexOf(item) === i; });
     return workingRides;
@@ -174,7 +176,8 @@ const functioningRides = () => {
             data.setParkAreas(results.parkAreas);
             data.setParkAttractions(attractionData);
             data.setParkAttractionTypes(results.parkAttractionTypes);
-            data.setParkInfo(results.parkInfo);            
+            data.setParkInfo(results.parkInfo);   
+            buildAttractionToSend(brokenStuff);         
             // buildEditedAttractions(attractionData);
             let areasAndAttractions = smashThisShitTogether(results.parkAreas, attractionData, results.parkAttractionTypes);
             data.setSmashedData(areasAndAttractions);
